@@ -2,10 +2,37 @@
 
 {% block content %}
 
-<h2>Confirmation</h2>
-
-Réservation confirmée ! Ou pas confirmée...
-
-<a class="btn btn-link" href="{{ path('homepage') }}">Retour</a>
+	<div class="container confirmation-page">
+		<div class="row">
+			<div class="col-md-12">
+				<h1 class="confirmation-page-main-title">The Amazing BELUGA SUPERSTAR MUSEUM</h1>
+			</div>
+			
+			<div class="col-md-10 col-md-offset-1">				
+				<div class="row confirmation-page-confirmation-text">
+					<div class="col-md-6">
+						<h2>Réservation confirmée !</h2>
+						<p>Merci ! Vous allez bientôt recevoir un email contenant vos tickets pour la visite !</p>
+						<p>Votre numéro de commande est le :</p>
+						<p>42KFJH1245</p>
+						<p>En cas de problème :</p>
+						<p>contact@amazingbelugamuseum.com</p>
+						<p>A bientôt !</p>
+						
+						<a class="btn-light-blue" href="{{ path('homepage') }}">Continuer</a>
+					</div>
+					<div class="col-md-6">
+						{% image '@AppBundle/Resources/public/img/baby-beluga-draw.png' %}
+							<img src="{{ asset_url }}" alt="baby-beluga-draw"  />
+						{% endimage %}													
+					</div>
+				</div>
+			</div>
+		</div>
+						
+		<footer class="footer">
+			<p class="footer-text">About - Contact</p>
+		</footer>		
+	</div>
 
 {% endblock content %}

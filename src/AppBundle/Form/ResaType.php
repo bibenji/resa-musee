@@ -14,6 +14,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 class ResaType extends AbstractType
 {
     /**
@@ -26,14 +28,12 @@ class ResaType extends AbstractType
 								
 				'widget' => 'single_text',				
 				'format' => 'dd/MM/yyyy',
-				
-				/*
-				'widget' => 'single_text',
+
+				// 'widget' => 'single_text',
 				// do not render as type="date", to avoid HTML5 date pickers
-				'html5' => false,
+				// 'html5' => false,
 				// add a class that can be selected in JavaScript
-				'attr' => ['class' => 'js-datepicker'],
-				*/
+				// 'attr' => ['class' => 'js-datepicker'],
 				
 			))
 			->add('type', ChoiceType::class, array(
@@ -56,7 +56,7 @@ class ResaType extends AbstractType
 				// 'by_reference' => false,
 				// 'required' => true,
 			])
-			->add('email')
+			->add('email', TextType::class, array())
 		;
     }
     

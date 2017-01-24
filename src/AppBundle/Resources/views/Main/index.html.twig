@@ -2,8 +2,77 @@
 
 {% block content %}
 
-<h2>Index</h2>
-
-<a class="btn btn-primary" href="{{ path('reservation') }}">Buy Tickets</a>
+	<div class="container homepage">
+		<div class="row">
+			<div class="col-md-9">
+				<h1 class="homepage-main-title">The Amazing<br />BELUGA<br />SUPERSTAR<br />MUSEUM</h1>
+			</div>
+			<div class="col-md-3">
+				<br />
+				<a href="{{ path('reservation') }}" class="homepage-menu-btn">Make a reservation</a>
+				<a href="" class="homepage-menu-btn">Sea more</a>
+				<a href="" class="homepage-menu-btn">Informations</a>
+				<a href="" class="homepage-menu-btn">Prices</a>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">
+				<h2>Sea more</h2>
+				<div class="row">
+					<div class="col-md-6 homepage-black-text-content">
+						<p>What is The Amazing BELUGA SUPERSTAR MUSEUM?</p>
+						<p>It's not simply a museum with many belugas, it's a real paradise full of love and hapiness!</p>
+						<p>So, come to see us!</p>
+					</div>
+					<div class="col-md-6">
+						{% image '@AppBundle/Resources/public/img/homepage-beluga.jpg' %}
+							<img src="{{ asset_url }}" class="homepage-illustration" alt="homepage-beluga"  />
+						{% endimage %}							
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">
+				<h2>Informations</h2>
+				<div class="row">
+					<div class="col-md-6 homepage-black-text-content">
+						<p>We're open from 9:00 to 18:00.</p>
+						<p>We are at :</p>
+						<p>12, Splash String<br />732 235 SPRING OCEAN</p>
+						<p>See map</p>
+					</div>
+					<div class="col-md-6">
+						{% image '@AppBundle/Resources/public/img/homepage-map.png' %}
+							<img src="{{ asset_url }}" class="homepage-illustration" alt="homepage-map"  />
+						{% endimage %}							
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">
+				<h2>Prices</h2>
+				<div class="row">
+					<div class="col-md-6 homepage-black-text-content">
+						<p>Really cheap prices :</p>
+						<p>Normal price (+12) : 16 euros<br />Child (4-12) : 8 euros<br />Old Man (+60) : 12 euros</p>
+						<p>Small price : 10 euros</p>
+						<p>(Just for some specific person.)</p>
+					</div>
+					<div class="col-md-6">
+						<img class="homepage-illustration" src="" />
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<footer class="footer">
+			<p class="footer-text">About - Contact</p>
+		</footer>		
+	</div>
 
 {% endblock content %}

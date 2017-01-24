@@ -2,39 +2,63 @@
 
 {% block content %}
 
-<h2>Validation</h2>
+	<div class="container validation-page">
+		<div class="row">
+			<div class="col-md-12">
+				<h1 class="validation-page-main-title">The Amazing BELUGA SUPERSTAR MUSEUM</h1>
+			</div>			
+		</div>
+		
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">				
+				<h2>Récapitulatif avant confirmation</h2>				
+			</div>
+			<div class="col-md-10 col-md-offset-1 deep-bg validation-page-main-container">
+				<p>4 places réservées pour le {{ resa.date|date('d/m/Y') }}, {{ resa.type }}.</p>
+				<p>
 
-Votre réservation :
+				<table class="table">
+					{% if resa.persons is not empty %}
+						{% for person in resa.persons %}
+							<tr>
+								<td>{{ person.firstname }} {{ person.lastname }}</td>
+								<td>{{ person.age }}</td>
+								<td>{{ person.reduction }}</td>
+								<td>{{ person|price }} euros</td>
+							</tr>
+						{% endfor %}
+							<tr>
+								<td colspan="3" class="text-right">Total :</td><td>{{ total }} euros</td>
+							</tr>
+					{% else %}
+					<tr>
+						<td>Error !</td>
+					</tr>		
+					{% endif %}
+				</table>
 
-<p>Le {{ resa.date|date('d/m/Y') }}, {{ resa.type }}.</p>
-
-<br />
-
-<table class="table">
-	{% if resa.persons is not empty %}
-		{% for person in resa.persons %}
-			<tr>
-				<td>{{ person.firstname }} {{ person.lastname }}</td>
-				<td>{{ person.age }}</td>
-				<td>{{ person.reduction }}</td>
-				<td>XX euros</td>
-			</tr>
-		{% endfor %}
-			<tr>
-				<td colspan="3" class="text-right">Total :</td><td>{{ total }} euros</td>
-			</tr>
-	{% else %}
-	<tr>
-		<td>Error !</td>
-	</tr>		
-	{% endif %}
-</table>
-
-<p>Adresse email : {{ resa.email }}</p>
-
-<br />
-
-<a class="btn btn-primary" href="{{ path('confirmation') }}">Valider votre achat</a>
-<a class="btn btn-link" href="{{ path('homepage') }}">Retour</a>
+				</p>
+				<p>Coût total : {{ total }} euros.</p>
+				<p>Adresse email : {{ resa.email }}</p>
+				<p>
+				A payer en Carte bleue.<br />
+				Nom du porteur de la carte : DOE John<br />
+				Numéro de carte : 4012 **** **** *****
+				</p>
+			</div>
+			<div class="col-md-10 col-md-offset-1">
+				<br />
+				<a class="btn-green input-short" href="{{ path('confirmation') }}">Confirmer</a>
+				&nbsp;
+				<button class="btn-light-blue input-short">Modifier</button>
+				&nbsp;
+				<a class="btn-orange input-short" href="{{ path('homepage') }}">Annuler</a>
+			</div>
+		</div>
+				
+		<footer class="footer">
+			<p class="footer-text">About - Contact</p>
+		</footer>		
+	</div>
 
 {% endblock content %}

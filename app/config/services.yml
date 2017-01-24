@@ -7,3 +7,14 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+    calculator:
+        class: AppBundle\Services\Calculator
+    
+    price.twig.filter.extension:        
+        class: AppBundle\Services\PriceTwigFilterExtension
+        # arguments: ['@translator']
+        arguments: ['@calculator']
+        public: false
+        tags:
+            - { name: twig.extension }

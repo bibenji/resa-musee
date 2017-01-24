@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\HttpFoundation\Session\Session;
+
 use AppBundle\Entity\Resa;
 use AppBundle\Form\ResaType;
 
@@ -16,6 +18,9 @@ class MainController extends Controller
      */
     public function indexAction(Request $request)
     {
+		$session = new Session();		
+		$session->clear();
+		
         // replace this example code with whatever you need
         return $this->render('AppBundle:Main:index.html.twig', [
             // 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
@@ -27,6 +32,9 @@ class MainController extends Controller
 	 */
 	public function reservationAction(Request $request)
 	{
+		$session = new Session();
+		$session->set('resa_id', 22);		
+		
 		$resa = new Resa();
 		$form = $this->createForm(ResaType::class, $resa);
 		
@@ -42,6 +50,8 @@ class MainController extends Controller
             $em->persist($resa);
             $em->flush();
 			
+			$session->set('resa_id', $resa->getId());
+			
 			return $this->redirectToRoute('validation', array('id' => $resa->getId()));	
 		}
 		
@@ -55,9 +65,17 @@ class MainController extends Controller
 	 */
 	public function validationAction(Request $request, $id)
 	{
-		$em = $this->get('doctrine.orm.entity_manager');
-		$resa = $em->getRepository('AppBundle:Resa')->findOneById($id);
+		$session = new Session();
 		
+		$em = $this->get('doctrine.orm.entity_manager');
+		// $resa = $em->getRepository('AppBundle:Resa')->findOneById($id);
+		$resa = $em->getRepository('AppBundle:Resa')->findOneById($session->get('resa_id'));
+		
+		if (!$resa) throw $this->createNotFoundException('Réservation introuvable !');
+		
+		$total = $this->get('calculator')->calculTotalPrice($resa);
+		
+		/*
 		$total = 0;
 		$persons = $resa->getPersons();
 		foreach ($persons as $person) {
@@ -66,6 +84,7 @@ class MainController extends Controller
 			elseif ($person->getAge() >= 12 && $person->getAge() < 60) $total += 16;
 			else $total += 12;
 		}
+		*/
 		
 		return $this->render('AppBundle:Main:validation.html.twig', [
 			'resa' => $resa,

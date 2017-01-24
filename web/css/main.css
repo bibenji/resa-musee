@@ -42,7 +42,7 @@ body {
 }
 
 .reservation-page, .validation-page, .confirmation-page {
-	background-image: url('../img/second-bg.jpg');
+	background-image: url('../../bundles/app/img/second-bg.jpg');
 	background-size: 100% 2000px;	
 }
 
@@ -53,7 +53,7 @@ body {
 
 /* HOMEPAGE */
 .homepage {
-	background-image: url('../img/homepage-bg.jpg');
+	background-image: url('../../bundles/app/img/homepage-bg.jpg');
 	background-size: 100% 2000px;
 	
 }
