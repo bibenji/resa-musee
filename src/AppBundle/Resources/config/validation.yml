@@ -1,0 +1,20 @@
+AppBundle\Entity\Resa:
+    constraints:
+        - Callback: validateDate
+    properties:
+        date:
+            - Date: ~
+            - GreaterThanOrEqual: today
+            - AppBundle\Form\Validator\Constraints\DateOpenMuseum: ~
+        type:
+            - Choice:
+                choices: [F, H]
+        email:
+            - NotBlank: ~
+            - Email: ~
+        persons:
+            - NotNull: ~
+            - Length:
+                min: 1
+            
+            

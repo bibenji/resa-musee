@@ -1,0 +1,28 @@
+body {
+	background-color: #3498db;
+	color: white;
+}
+
+input, select {
+	background-color: #3498db;
+	border: 1px solid white;
+}
+
+.ui-datepicker {
+	background-color: white;
+	color: grey;
+}
+
+.oneAddedPerson {
+	
+}
+.oneAddedPerson div {
+	display: inline-block;
+	width: 100%;
+}
+.oneAddedPerson div div {
+	width: 24%;
+}
+.oneAddedPerson div label {
+	display: block;
+}

@@ -1,0 +1,155 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block content %}
+
+<h2>Réservation</h2>
+
+{#{% form_theme form 'bootstrap_3_layout.html.twig' %}#}
+
+{{ form_start(form) }}
+
+<div class="row">
+	<div class="col-md-6">
+		{{ form_errors(form.date) }}
+		{{ form_label(form.date) }}<br />
+		{{ form_widget(form.date) }}
+	</div>
+	<div class="col-md-6">
+		{{ form_errors(form.type) }}
+		{{ form_label(form.type) }}<br />
+		{{ form_widget(form.type) }}
+	</div>
+</div>
+
+<hr />
+
+<div class="row">	
+	{{ form_errors(form.persons) }}
+	{{ form_label(form.persons) }}
+	
+	<br />
+		
+	<div class="col-md-12">
+				
+		<div id="persons-fields-list"
+			data-prototype="
+				{% filter escape %}
+					{{ include('AppBundle:FormComponents:prototype.html.twig', { 'form': form.persons.vars.prototype }) }}
+				{% endfilter %}
+			">
+			
+			{% for personFields in form.persons %}		
+					{#
+					{% block _forms_entry_widget %}
+							<td>{{ form_widget(form.firstname) }}</td>
+							<td>{{ form_widget(form.lastname) }}</td>				
+					{% endblock %}
+					#}
+					
+					<div class="oneAddedPerson">
+					Person X :<br />
+					{{ form_errors(personFields.firstname) }}
+					{{ form_label(personFields.firstname) }}
+					{{ form_widget(personFields.firstname) }}
+					
+					
+					</div>        
+			{% endfor %}
+		
+		</div>
+	</div>
+	
+	<br /><br />
+	<a class="btn btn-primary" href="#" id="add-another-person">Add another person</a>
+	
+</div>
+
+<hr /> 
+
+{{ form_errors(form.email) }}
+{{ form_label(form.email) }}<br />
+{{ form_widget(form.email) }}
+
+<br /><br />
+
+<input class="btn btn-primary" type="submit" value="Effectuer la réservation" />
+
+{{ form_end(form) }}
+
+<a class="btn btn-link" href="{{ path('homepage') }}">Retour</a>
+
+{% endblock content %}
+
+{% block javascripts_body %}
+	{{ parent() }}
+	<!--
+	<script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+	-->
+	
+	<script>
+		
+			
+			
+		(function($) {
+					
+			// DATEPICKER			
+			/*
+			$('.js-datepicker').datepicker({
+				format: 'yyyy-mm-dd',
+				regional: 'fr',
+			});
+			*/
+						
+			// PERSONS
+			// keep track of how many email fields have been rendered
+			var personsCount = '{{ form.persons|length }}';
+			var personsList = $('#persons-fields-list');
+			
+			$('#add-another-person').on('click', function(e) {
+				e.preventDefault();
+				addPerson();
+			});
+			
+			function addPerson() {
+				var newWidget = personsList.attr('data-prototype');
+				// replace the "__name__" used in the id and name of the prototype
+				// with a number that's unique to your emails
+				// end name attribute looks like name="contact[emails][2]"
+				newWidget = newWidget.replace(/__name__/g, personsCount);
+				personsCount++;
+				newWidget = 'Person '+personsCount+' :<br />'+newWidget;
+				
+				<!-- var newLi = $('<div class="oneAddedPerson"></div>').html(newWidget); -->
+				var $newLi = $('<div class="oneAddedPerson"></div>').append(newWidget);
+				
+				$newLi.append('<a href="#" class="remove-person">Remove</a>');
+				
+				$newLi.appendTo(personsList);
+				
+				$('.remove-person').click(function(e) {
+					e.preventDefault();
+					$(this).parent().remove();
+					<!-- console.log($(this).parent().parent()); -->
+					
+					return false;
+				});
+				
+			}
+				
+				/*
+				newDivToSuppr = document.createElement('div');
+				newButtToSuppr = document.createElement('button');
+				newButtToSuppr.innerHTML = 'XXX';
+				newButtToSuppr.click(function() {
+					removePerson();
+				});
+				newDivToSuppr.append(newButtToSuppr);				
+				*/
+				
+			
+					
+		}) (jQuery)
+		
+	</script>
+{% endblock javascripts_body %}
+

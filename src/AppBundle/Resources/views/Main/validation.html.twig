@@ -1,0 +1,40 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block content %}
+
+<h2>Validation</h2>
+
+Votre réservation :
+
+<p>Le {{ resa.date|date('d/m/Y') }}, {{ resa.type }}.</p>
+
+<br />
+
+<table class="table">
+	{% if resa.persons is not empty %}
+		{% for person in resa.persons %}
+			<tr>
+				<td>{{ person.firstname }} {{ person.lastname }}</td>
+				<td>{{ person.age }}</td>
+				<td>{{ person.reduction }}</td>
+				<td>XX euros</td>
+			</tr>
+		{% endfor %}
+			<tr>
+				<td colspan="3" class="text-right">Total :</td><td>{{ total }} euros</td>
+			</tr>
+	{% else %}
+	<tr>
+		<td>Error !</td>
+	</tr>		
+	{% endif %}
+</table>
+
+<p>Adresse email : {{ resa.email }}</p>
+
+<br />
+
+<a class="btn btn-primary" href="{{ path('confirmation') }}">Valider votre achat</a>
+<a class="btn btn-link" href="{{ path('homepage') }}">Retour</a>
+
+{% endblock content %}
