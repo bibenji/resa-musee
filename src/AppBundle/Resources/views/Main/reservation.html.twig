@@ -24,7 +24,7 @@
 		
 		<div class="row">
 			<div class="col-md-12">
-				{{ form_start(form, {'attr' : {'class':'deep-bg'}}) }}				
+				{{ form_start(form, {'attr' : {'class':'deep-bg','id':'payment-form'}}) }}				
 					<div class="reservation-page-question">
 						<p>Quand souhaitez-vous venir au musée ?</p>
 						{{ form_errors(form.date) }}
@@ -37,7 +37,8 @@
 					</div>
 					<div class="reservation-page-question">
 						<p>Indiquez les noms, prénoms et dates de naissance des personnes qui participeront à cette visite :</p>
-						
+						{{ form_errors(form.persons) }}												
+												
 						<div id="persons-fields-list" data-prototype="
 							{% filter escape %}
 								{{ include('AppBundle:FormComponents:prototype.html.twig', { 'form': form.persons.vars.prototype }) }}
@@ -63,7 +64,7 @@
 					</div>
 					<div class="reservation-page-question">
 						<p>Coût total :</p>
-						<span class="reservation-page-cout-total input-short">24 euros</span>
+						<span class="reservation-page-cout-total input-short"><span>0</span> euros</span>
 					</div>
 					<div class="reservation-page-question">
 						<p>Adresse email ? (Vos billets vous seront envoyés à cette adresse.)</p>
@@ -71,16 +72,23 @@
 						{{ form_widget(form.email, {'attr' : {'class':'input-long','placeholder':'Adresse email'}}) }}						
 					</div>
 					<div class="reservation-page-question">
-						<p>Mode de paiement :</p>
+						<p>Mode de paiement : <span class="payment-errors"></span></p>
 						<select class="input-short"><option>CB</option><option>VISA</option><option>MASTER CARD</option></select>
-						<input class="input-long" type="text" placeholder="Nom du porteur de la carte" />
+						<input class="input-long" type="text" placeholder="Nom du porteur de la carte" name="cardOwner" />
 						<br /><br />
-						<input class="input-long" type="text" placeholder="Numéro de carte" /> <input class="input-short" type="text" placeholder="Cryptogramme" />
+						<input class="input-long" type="text" size="20" data-stripe="number" placeholder="Numéro de carte" />
+						<br /><br />
+						Date d'expiration : <input class="" type="text" size="2" data-stripe="exp_month" placeholder="" /><span> / &nbsp;</span><input class="" type="text" size="2" data-stripe="exp_year" placeholder="" />
+						<br /><br />
+						<input class="input-short" type="text" data-stripe="cvc" placeholder="Cryptogramme" />
 					</div>
 					<div class="reservation-page-question">
 						<input type="submit" class="btn-green input-short" value="Payer" /> <input type="reset" class="btn-orange input-short" value="Annuler" />
 					</div>
-				{{ form_rest(form) }}
+				
+				<div class="form-rest" style="background-color: yellow; display: none">
+					{{ form_rest(form) }}
+				</div>
 				{{ form_end(form) }}				
 			</div>
 		</div>
@@ -92,13 +100,62 @@
 
 {% endblock content %}
 
-{% block javascripts_body %}
-	{{ parent() }}	
+{% block javascripts_body %}	
+	{{ parent() }}
+	<script type="text/javascript">	
+		var availableDates = {{ fullDates|json_encode()|raw }};
+		<!-- var availableDates = [{"date":{"date":"2017-01-24 00:00:00.000000","timezone_type":3,"timezone":"Europe\/Berlin"}},{"date":{"date":"2017-01-25 00:00:00.000000","timezone_type":3,"timezone":"Europe\/Berlin"}},{"date":{"date":"2017-01-31 00:00:00.000000","timezone_type":3,"timezone":"Europe\/Berlin"}},{"date":{"date":"2017-02-01 00:00:00.000000","timezone_type":3,"timezone":"Europe\/Berlin"}},{"date":{"date":"2017-03-26 00:00:00.000000","timezone_type":3,"timezone":"Europe\/Berlin"}},{"date":{"date":"2017-11-11 00:00:00.000000","timezone_type":3,"timezone":"Europe\/Berlin"}}]; -->
+		<!-- console.log(availableDates); -->
+	</script>
 	<script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
-	{% javascripts 'bundles/app/js/datepicker-fr.js'
+	{% javascripts
 		'bundles/app/js/datepicker.js'
-		'bundles/app/js/reservation.js' %}
+		'bundles/app/js/reservation.js'
+	%}
 		<script src="{{ asset_url }}"></script>
+		
+		<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+		<script type="text/javascript">
+			Stripe.setPublishableKey('pk_test_ZpqFBfj36X6NW7TNYxGAVBwT');
+
+			function stripeResponseHandler(status, response) {
+			  // Grab the form:
+			  var $form = $('#payment-form');
+
+			  if (response.error) { // Problem!
+
+				// Show the errors on the form:
+				$form.find('.payment-errors').text(response.error.message);
+				$form.find('.submit').prop('disabled', false); // Re-enable submission
+
+			  } else { // Token was created!
+
+				// Get the token ID:
+				var token = response.id;
+
+				// Insert the token ID into the form so it gets submitted to the server:
+				$form.append($('<input type="hidden" name="stripeToken">').val(token));
+
+				// Submit the form:
+				$form.get(0).submit();
+			  }
+			};
+			
+			$(function() {
+			  var $form = $('#payment-form');
+			  $form.submit(function(event) {
+				// Disable the submit button to prevent repeated clicks:
+				$form.find('.submit').prop('disabled', true);
+
+				// Request a token from Stripe:
+				Stripe.card.createToken($form, stripeResponseHandler);
+
+				// Prevent the form from being submitted:
+				return false;
+			  });
+			});
+		</script>
+		
 	{% endjavascripts %}
 {% endblock javascripts_body %}
 

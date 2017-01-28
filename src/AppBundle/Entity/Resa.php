@@ -17,20 +17,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * @ORM\HasLifecycleCallbacks()
  */
 class Resa
-{
-	public function validateDate(ExecutionContextInterface $context, $payload)
-	{
-		// date doit être un jour d'ouverture du musée
-		// billets ne peuvent pas être journée si 14h passées
-		// créer tout ça dans des contraintes extérieures
-		if (empty($this->persons)) {
-			$context
-				->buildViolation('Personne d\'enregistré pour la visite !')
-                ->atPath('persons')
-                ->addViolation();
-		}
-	}
-	
+{	
     /**
      * @var int
      *

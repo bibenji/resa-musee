@@ -10,4 +10,20 @@ namespace AppBundle\Repository;
  */
 class ResaRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getFullDays()
+	{
+		$qb = $this->_em->createQuery('
+			SELECT r.date
+			FROM AppBundle:Resa r			
+			GROUP BY r.date
+			HAVING r.date >= :now AND COUNT(r) >= 10
+			
+		')
+			->setParameter('now', new \DateTime('now'))
+		;
+		// HAVING COUNT(r) >= 10
+		// à rajouter après tests
+					
+		return $qb->getResult();
+	}
 }

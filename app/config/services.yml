@@ -18,3 +18,10 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+    
+    date_available:
+        class: AppBundle\Form\Validator\Constraints\DateAvailableValidator
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"
+        tags:
+            - { name: validator.constraint_validator }
