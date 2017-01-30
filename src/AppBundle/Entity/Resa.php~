@@ -14,21 +14,10 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  *
  * @ORM\Table(name="resas")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ResaRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Resa
-{
-	public function validateDate(ExecutionContextInterface $context, $payload)
-	{
-		// date doit être un jour d'ouverture du musée
-		// billets ne peuvent pas être journée si 14h passées
-		if (empty($this->persons)) {
-			$context
-				->buildViolation('Personne d\'enregistré pour la visite !')
-                ->atPath('persons')
-                ->addViolation();
-		}
-	}
-	
+{	
     /**
      * @var int
      *
@@ -60,9 +49,9 @@ class Resa
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="type", type="string", length=2)
+	 * @ORM\Column(name="type_resa", type="string", length=2)
 	 */
-	private $type;
+	private $typeResa;
 	
 	/**
 	 * @var string
@@ -70,13 +59,20 @@ class Resa
 	 * @ORM\Column(name="email", type="string", length=255)
 	 */
 	private $email;
-
-    /**
-     * @var bool
+	
+	/**
+     * @var string
      *
-     * @ORM\Column(name="confirmed", type="boolean", nullable=true)
+     * @ORM\Column(name="nom", type="string", length=255, nullable=true)
      */
-    private $confirmed;	
+    private $nom;	
+	
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=255, nullable=true)
+     */
+    private $code;	
 	
 	/**
 	 * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
@@ -92,6 +88,14 @@ class Resa
     public function __construct()
 	{
 		$this->persons = new ArrayCollection();
+	}
+	
+	/**	 	 
+	 * @ORM\PrePersist
+	 */
+	public function prePersistEvent()
+	{
+		$this->dateAchat = new \DateTime();		
 	}
 	
 	/**
@@ -153,30 +157,6 @@ class Resa
     }
 
     /**
-     * Set confirmed
-     *
-     * @param boolean $confirmed
-     *
-     * @return Resa
-     */
-    public function setConfirmed($confirmed)
-    {
-        $this->confirmed = $confirmed;
-
-        return $this;
-    }
-
-    /**
-     * Get confirmed
-     *
-     * @return bool
-     */
-    public function getConfirmed()
-    {
-        return $this->confirmed;
-    }
-
-    /**
      * Add person
      *
      * @param \AppBundle\Entity\Person $person
@@ -211,30 +191,6 @@ class Resa
     }
 
     /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return Resa
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * Set email
      *
      * @param string $email
@@ -256,5 +212,77 @@ class Resa
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set dateAchat
+     *
+     * @param \DateTime $dateAchat
+     *
+     * @return Resa
+     */
+    public function setDateAchat($dateAchat)
+    {
+        $this->dateAchat = $dateAchat;
+
+        return $this;
+    }
+
+    /**
+     * Get dateAchat
+     *
+     * @return \DateTime
+     */
+    public function getDateAchat()
+    {
+        return $this->dateAchat;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Resa
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return Resa
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 }

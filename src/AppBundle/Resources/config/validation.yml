@@ -1,12 +1,16 @@
-AppBundle\Entity\Resa:   
+AppBundle\Entity\Resa:
+    constraints:
+        - AppBundle\Form\Validator\Constraints\TypePossible: ~
     properties:
         date:
             - Date: ~
             - GreaterThanOrEqual: today
             - AppBundle\Form\Validator\Constraints\DateAvailable: ~
-        type:
+        typeResa:
             - Choice:
-                choices: [F, H]
+                choices: [F, H]            
+        nom:
+            - NotBlank: ~
         email:
             - NotBlank: ~
             - Email: ~

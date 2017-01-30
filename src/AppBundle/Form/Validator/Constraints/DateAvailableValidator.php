@@ -24,21 +24,31 @@ class DateAvailableValidator extends ConstraintValidator
 			$fullDates[] = $oneDay['date']->format('Y-n-d');			
 		}
 		
+		if ($date->format('l') == 'Tuesday') {
+			$this
+				->context->buildViolation($constraint->tuesdayClosed)
+                // ->setParameter('%string%', $value)
+                ->addViolation();
+		}
+		
 		if (
-			$date->format('l') == 'Tuesday'
-			OR
 			$date->format('d-m') == '01-05'
 			OR
 			$date->format('d-m') == '01-11'
 			OR
-			$date->format('d-m') == '25-12'
-			OR
-			in_array($date->format('Y-n-d'), $fullDates)
+			$date->format('d-m') == '25-12'						
 		) { 
 			$this
-				->context->buildViolation($constraint->message)
+				->context->buildViolation($constraint->daysClosed)
                 // ->setParameter('%string%', $value)
                 ->addViolation();
         }
+		
+		if (in_array($date->format('Y-n-d'), $fullDates)) {
+			$this
+				->context->buildViolation($constraint->daysFull)
+                // ->setParameter('%string%', $value)
+                ->addViolation();
+		}
     }
 }

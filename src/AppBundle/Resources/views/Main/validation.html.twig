@@ -14,7 +14,7 @@
 				<h2>Récapitulatif avant confirmation</h2>				
 			</div>
 			<div class="col-md-10 col-md-offset-1 deep-bg validation-page-main-container">
-				<p>{{ resa.persons|length }} place(s) réservée(s) pour le {{ resa.date|date('d/m/Y') }}, {{ (resa.type == "F") ? "Toute la journée" : "Demi-journée" }}.</p>
+				<p>{{ resa.persons|length }} place(s) réservée(s) pour le {{ resa.date|date('d/m/Y') }}, {{ (resa.typeResa == "F") ? "Toute la journée" : "Demi-journée" }}.</p>
 				<p>
 
 				<table class="table">
@@ -22,11 +22,17 @@
 						{% for person in resa.persons %}
 							<tr>
 								<td>{{ person.firstname }} {{ person.lastname }}</td>
-								<td>{{ person.age }}</td>
+								<td>{{ person.age }} ans</td>
 								<td>
 									{{ (person.reduction == 0) ? "Plein tarif" : "Demi-tarif" }}									
 								</td>
-								<td>{{ person|price }} euros</td>
+								<td>
+									{% if resa.typeResa == 'H' %}
+										{{ person|price / 2 }} euros
+									{% else %}
+										{{ person|price }} euros
+									{% endif %}
+								</td>
 							</tr>
 						{% endfor %}
 							<tr>
@@ -41,18 +47,15 @@
 
 				</p>
 				<p>Coût total : {{ total }} euros.</p>
-				<p>Adresse email : {{ resa.email }}</p>
-				<p>
-				A payer en Carte bleue.<br />
-				Nom du porteur de la carte : DOE John<br />
-				Numéro de carte : 4012 **** **** *****
-				</p>
+				<p>Réservation au nom de : {{ resa.nom }}</p>
+				<p>Adresse email : {{ resa.email }}</p>				
+				<p>Numéro de carte : 4012 **** **** *****</p>
 			</div>
 			<div class="col-md-10 col-md-offset-1">
 				<br />
 				<a class="btn-green input-short" href="{{ path('confirmation') }}">Confirmer</a>
 				&nbsp;
-				<button class="btn-light-blue input-short">Modifier</button>
+				<a class="btn-light-blue input-short" href="{{ path('reservation') }}">Modifier</a>
 				&nbsp;
 				<a class="btn-orange input-short" href="{{ path('homepage') }}">Annuler</a>
 			</div>

@@ -49,9 +49,9 @@ class Resa
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="type", type="string", length=2)
+	 * @ORM\Column(name="type_resa", type="string", length=2)
 	 */
-	private $type;
+	private $typeResa;
 	
 	/**
 	 * @var string
@@ -59,13 +59,20 @@ class Resa
 	 * @ORM\Column(name="email", type="string", length=255)
 	 */
 	private $email;
-
-    /**
-     * @var bool
+	
+	/**
+     * @var string
      *
-     * @ORM\Column(name="confirmed", type="boolean", nullable=true)
+     * @ORM\Column(name="nom", type="string", length=255, nullable=true)
      */
-    private $confirmed;	
+    private $nom;	
+	
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=255, nullable=true)
+     */
+    private $code;	
 	
 	/**
 	 * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
@@ -150,30 +157,6 @@ class Resa
     }
 
     /**
-     * Set confirmed
-     *
-     * @param boolean $confirmed
-     *
-     * @return Resa
-     */
-    public function setConfirmed($confirmed)
-    {
-        $this->confirmed = $confirmed;
-
-        return $this;
-    }
-
-    /**
-     * Get confirmed
-     *
-     * @return bool
-     */
-    public function getConfirmed()
-    {
-        return $this->confirmed;
-    }
-
-    /**
      * Add person
      *
      * @param \AppBundle\Entity\Person $person
@@ -205,30 +188,6 @@ class Resa
     public function getPersons()
     {
         return $this->persons;
-    }
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return Resa
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 
     /**
@@ -277,5 +236,77 @@ class Resa
     public function getDateAchat()
     {
         return $this->dateAchat;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Resa
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return Resa
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set typeResa
+     *
+     * @param string $typeResa
+     *
+     * @return Resa
+     */
+    public function setTypeResa($typeResa)
+    {
+        $this->typeResa = $typeResa;
+
+        return $this;
+    }
+
+    /**
+     * Get typeResa
+     *
+     * @return string
+     */
+    public function getTypeResa()
+    {
+        return $this->typeResa;
     }
 }

@@ -25,18 +25,26 @@
 		<div class="row">
 			<div class="col-md-12">
 				{{ form_start(form, {'attr' : {'class':'deep-bg','id':'payment-form'}}) }}				
-					<div class="reservation-page-question">
+					<div class="reservation-page-question row">
 						<p>Quand souhaitez-vous venir au musée ?</p>
-						{{ form_errors(form.date) }}
-						{{ form_widget(form.date, {'attr' : {'class':'input-short datepicker','placeholder':'24/01/2017'}}) }}
-						{{ form_errors(form.type) }}
-						{{ form_widget(form.type, {'attr' : {'class':'input-short resa-type'}}) }}
-						
-						<div id="type-info-1">Attention, avec un billet demi-journée, vous n'êtes autorisé à entrer dans le musée qu'à partir de 14h.</div>
-						<div id="type-info-2">Les billets à la journée ne sont plus disponibles pour aujourd'hui...</div>						
+						<div class="col-md-6">							
+							{{ form_widget(form.date, {'attr' : {'class':'input-short datepicker','placeholder':'24/01/2017'}}) }}							
+							{{ form_widget(form.typeResa, {'attr' : {'class':'input-short resa-type'}}) }}
+						</div>
+						<div class="col-md-6">							
+							{{ form_errors(form.date) }}
+							{{ form_errors(form.typeResa) }}
+							<ul>
+								<li id="type-info-1">Attention, avec un billet demi-journée, vous n'êtes autorisé à entrer dans le musée qu'à partir de 14h.</li>
+								<li id="type-info-2">Les billets à la journée ne sont plus disponibles pour aujourd'hui...</li>
+							</ul>
+						</div>
 					</div>
-					<div class="reservation-page-question">
+					
+					<div class="reservation-page-question row">
 						<p>Indiquez les noms, prénoms et dates de naissance des personnes qui participeront à cette visite :</p>
+						<span>! : Un justificatif vous sera demandé en cas de tarif réduit (étudiant, militaire ou équivalent).</span>
+						<div class="col-md-12">
 						{{ form_errors(form.persons) }}												
 												
 						<div id="persons-fields-list" data-prototype="
@@ -54,36 +62,62 @@
 								{{ form_widget(personFields.age, {'attr' : {'class':'input-short'}}) }}
 								{{ form_errors(personFields.reduction) }}								
 								{{ form_widget(personFields.reduction, {'attr' : {'class':'input-short'}}) }}
-								<span>To be continued... in template...</span>
+								<span class="removePerson">X</span>
 							</div>        
 						{% endfor %}					
 						
 						</div>
 						<br /><button id="add-another-person" class="btn-deep-blue input-short">Ajouter</button>
-						
+						</div>
 					</div>
-					<div class="reservation-page-question">
+					
+					<div class="reservation-page-question row">
 						<p>Coût total :</p>
-						<span class="reservation-page-cout-total input-short"><span>0</span> euros</span>
+						<div class="col-md-12">							
+							<span class="reservation-page-cout-total input-short"><span>0</span> euros</span>
+						</div>
 					</div>
-					<div class="reservation-page-question">
+					
+					<div class="reservation-page-question row">
+						<p>Réservation au nom de :</p>
+						<div class="col-md-6">														
+							{{ form_widget(form.nom, {'attr' : {'class':'input-short','placeholder':'Nom','data-stripe':'name'}}) }}						
+						</div>
+						<div class="col-md-6">
+							{{ form_errors(form.nom) }}
+						</div>
+					</div>
+					
+					<div class="reservation-page-question row">
 						<p>Adresse email ? (Vos billets vous seront envoyés à cette adresse.)</p>
-						{{ form_errors(form.email) }}
-						{{ form_widget(form.email, {'attr' : {'class':'input-long','placeholder':'Adresse email'}}) }}						
+						<div class="col-md-6">														
+							{{ form_widget(form.email, {'attr' : {'class':'input-long','placeholder':'Adresse email'}}) }}						
+						</div>
+						<div class="col-md-6">
+							{{ form_errors(form.email) }}
+						</div>
 					</div>
-					<div class="reservation-page-question">
-						<p>Mode de paiement : <span class="payment-errors"></span></p>
-						<select class="input-short"><option>CB</option><option>VISA</option><option>MASTER CARD</option></select>
-						<input class="input-long" type="text" placeholder="Nom du porteur de la carte" name="cardOwner" />
+					
+					<div class="reservation-page-question row">
+						<p>Coordonnées de paiement :</p>
+						<span>(Une confirmation vous sera demandée avant validation du paiement.)</span>
 						<br /><br />
-						<input class="input-long" type="text" size="20" data-stripe="number" placeholder="Numéro de carte" />
-						<br /><br />
-						Date d'expiration : <input class="" type="text" size="2" data-stripe="exp_month" placeholder="" /><span> / &nbsp;</span><input class="" type="text" size="2" data-stripe="exp_year" placeholder="" />
-						<br /><br />
-						<input class="input-short" type="text" data-stripe="cvc" placeholder="Cryptogramme" />
+						<div class="col-md-6">																									
+							<input class="input-long" type="text" size="20" data-stripe="number" placeholder="Numéro de carte" />
+							<br /><br />							
+							<input class="" type="text" size="2" data-stripe="exp_month" placeholder="00" /><span> / &nbsp;&nbsp;</span><input type="text" size="2" data-stripe="exp_year" placeholder="00" />
+							<br /><br />
+							<input class="input-short" type="text" size="4" data-stripe="cvc" placeholder="Cryptogramme" />
+						</div>
+						<div class="col-md-6">
+							<span class="payment-errors"></span>
+						</div>
 					</div>
-					<div class="reservation-page-question">
-						<input type="submit" class="btn-green input-short" value="Payer" /> <input type="reset" class="btn-orange input-short" value="Annuler" />
+					
+					<div class="reservation-page-question row">
+						<div class="col-md-12">
+							<input type="submit" class="btn-green input-short" value="Payer" /> <input type="reset" class="btn-orange input-short" value="Annuler" />
+						</div>
 					</div>
 				
 				<div class="form-rest" style="background-color: yellow; display: none">
@@ -125,7 +159,7 @@
 			  if (response.error) { // Problem!
 
 				// Show the errors on the form:
-				$form.find('.payment-errors').text(response.error.message);
+				$form.find('.payment-errors').html('<ul><li>'+response.error.message+'</li></ul>');
 				$form.find('.submit').prop('disabled', false); // Re-enable submission
 
 			  } else { // Token was created!

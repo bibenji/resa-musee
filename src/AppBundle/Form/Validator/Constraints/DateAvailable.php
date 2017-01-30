@@ -8,5 +8,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class DateAvailable extends Constraint
 {
-    public $message = 'Nous sommes désolés, il n\'est pas possible de réserver à la date indiquée ! Merci de choisir une autre date.';
+    public $tuesdayClosed = 'Nous sommes désolés, le musée est fermé le mardi.';
+    public $daysClosed = 'Nous sommes désolés, le musée est fermé le 1er mai, le 11 novembre et le 25 décembre.';
+	public $daysFull = 'Nous sommes désolés, il n\'est plus possible de réserver pour cette date ! Merci de choisir une autre date.';
 }

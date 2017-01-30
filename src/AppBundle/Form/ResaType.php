@@ -36,7 +36,7 @@ class ResaType extends AbstractType
 				// 'attr' => ['class' => 'js-datepicker'],
 				
 			))
-			->add('type', ChoiceType::class, array(
+			->add('typeResa', ChoiceType::class, array(
 				'choices'  => array(
 				'Journée entière' => 'F',
 				'Demi-journée' => 'H',
@@ -57,6 +57,7 @@ class ResaType extends AbstractType
 				// 'required' => true,
 			])
 			->add('email', TextType::class, array())
+			->add('nom', TextType::class, array())
 		;
     }
     
