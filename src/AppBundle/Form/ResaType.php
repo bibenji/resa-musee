@@ -38,8 +38,8 @@ class ResaType extends AbstractType
 			))
 			->add('typeResa', ChoiceType::class, array(
 				'choices'  => array(
-				'Journée entière' => 'F',
-				'Demi-journée' => 'H',
+					'Journée entière' => 'F',
+					'Demi-journée' => 'H',
 				),
 			))
 			->add('persons', EntityType::class, [

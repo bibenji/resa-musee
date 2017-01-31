@@ -25,3 +25,8 @@ services:
             entityManager: "@doctrine.orm.entity_manager"
         tags:
             - { name: validator.constraint_validator }
+    
+    confirmation_sender:
+        class: AppBundle\Services\ConfirmationSender
+        arguments:
+            containerInterface: "@service_container"           

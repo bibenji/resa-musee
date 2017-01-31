@@ -5,7 +5,8 @@ class Calculator
 {		
 	public function calculPersonPrice($person)
 	{			
-		if ($person->getAge() >= 4 && $person->getAge() < 12) $price = 8;		
+		if ($person->getAge() < 4) $price = 0;
+		elseif ($person->getAge() >= 4 && $person->getAge() < 12) $price = 8;		
 		elseif ($person->getReduction() == 1) $price = 10;		
 		elseif ($person->getAge() >= 12 && $person->getAge() < 60) $price = 16;
 		else $price = 12;

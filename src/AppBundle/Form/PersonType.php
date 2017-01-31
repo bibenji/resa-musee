@@ -33,6 +33,7 @@ class PersonType extends AbstractType
 			))
 			*/
 			->add('age', ChoiceType::class, array(
+				'placeholder' => 'Âge',
 				'choices'  => range(0, 99),				
 			))
 			->add('reduction', ChoiceType::class, array(

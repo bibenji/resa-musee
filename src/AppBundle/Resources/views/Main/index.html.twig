@@ -5,19 +5,19 @@
 	<div class="container homepage">
 		<div class="row">
 			<div class="col-md-9">
-				<h1 class="homepage-main-title">The Amazing<br />BELUGA<br />SUPERSTAR<br />MUSEUM</h1>
+				<h1 class="homepage-main-title">The Amazing <br />BELUGA <br />SUPERSTAR <br />MUSEUM</h1>
 			</div>
 			<div class="col-md-3">
 				<br />
 				<a href="{{ path('reservation') }}" class="homepage-menu-btn">Make a reservation</a>
-				<a href="" class="homepage-menu-btn">Sea more</a>
-				<a href="" class="homepage-menu-btn">Informations</a>
-				<a href="" class="homepage-menu-btn">Prices</a>
+				<a href="#sea-more" class="homepage-menu-btn" data-target="sea-more">Sea more</a>
+				<a href="#informations" class="homepage-menu-btn" data-target="informations">Informations</a>
+				<a href="#prices" class="homepage-menu-btn" data-target="prices">Prices</a>
 			</div>
 		</div>
 		
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-12" id="sea-more">
 				<h2>Sea more</h2>
 				<div class="row">
 					<div class="col-md-6 homepage-black-text-content">
@@ -35,14 +35,15 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-12" id="informations">
 				<h2>Informations</h2>
 				<div class="row">
 					<div class="col-md-6 homepage-black-text-content">
-						<p>We're open from 9:00 to 18:00.</p>
-						<p>We are at :</p>
+						<p>Le musée est ouvert de 9h à 18h, tous les jours de la semaine sauf le mardi.</p>
+						<p>Le musée est également fermé le 1er mai, le 1er novembre et le 25 décembre.</p>
+						<p>Venir au musée :</p>
 						<p>12, Splash String<br />732 235 SPRING OCEAN</p>
-						<p>See map</p>
+						<p>Afficher dans Google Map (à venir)</p>
 					</div>
 					<div class="col-md-6">
 						{% image '@AppBundle/Resources/public/img/homepage-map.png' %}
@@ -54,17 +55,51 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-md-12">
-				<h2>Prices</h2>
+			<div class="col-md-12" id="prices">
+				<h2>Tarifs</h2>				
 				<div class="row">
-					<div class="col-md-6 homepage-black-text-content">
-						<p>Really cheap prices :</p>
-						<p>Normal price (+12) : 16 euros<br />Child (4-12) : 8 euros<br />Old Man (+60) : 12 euros</p>
-						<p>Small price : 10 euros</p>
-						<p>(Just for some specific person.)</p>
-					</div>
-					<div class="col-md-6">
-						<img class="homepage-illustration" src="" />
+					<div class="col-md-10 homepage-black-text-content">
+						<table class="table">
+							<thead>
+								<tr>
+									<th width="40%"></th>
+									<th>Journée entière</th>
+									<th>Demi-journée</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+								<tr>
+									<td>Tarif "normal"<br />A partir de 12 ans</td>
+									<td>16 euros</td>
+									<td>8 euros</td>
+								</tr>
+								<tr>
+									<td>Tarif "enfant"<br />De 4 à 12 ans</td>
+									<td>8 euros</td>
+									<td>4 euros</td>
+								</tr>
+								<tr>
+									<td>Tarif "jeune enfant"<br />De 0 à 3 ans</td>
+									<td>Gratuit</td>
+									<td>Gratuit</td>
+								</tr>
+								<tr>
+									<td>Tarif "senior"<br />A partir de 60 ans</td>
+									<td>12 euros</td>
+									<td>6 euros</td>
+								</tr>
+								<tr>
+									<td>Tarif "réduit"<br />Etudiant, employé du musée, employé du Ministère de la Culture, militaire.</td>
+									<td>10 euros</td>
+									<td>5 euros</td>
+								</tr>
+							</tbody>
+						</table>
+									
+						<p>							
+							Attention : Les billets "Demi-journée" ne permettent d'entrer dans le musée qu'à partir de 14h.<br />							
+						</p>					
 					</div>
 				</div>
 			</div>
@@ -76,3 +111,29 @@
 	</div>
 
 {% endblock content %}
+
+{% block javascripts_body %}	
+	{{ parent() }}
+	<script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>	
+	<!-- Finalement pas utilisé
+	<script src="http://cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.min.js"></script>	
+	-->
+	<script>
+	
+		$(function() {
+			console.log('coucou');
+			$('.homepage-menu-btn').click(function(e) {				
+				
+					var page = $(this).attr('href'); // Page cible
+					var speed = 750; // Durée de l'animation (en ms)
+					$('html, body').animate({
+						scrollTop: $(page).offset().top
+					}, speed ); // Go
+					return false;				
+			});
+		});
+		
+	</script>		
+	{% javascripts %}
+	{% endjavascripts %}
+{% endblock javascripts_body %}

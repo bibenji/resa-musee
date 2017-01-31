@@ -17,7 +17,7 @@
 				{% image '@AppBundle/Resources/public/img/tickets.png' %}
 					<img src="{{ asset_url }}" style="float: left; height: 100px; margin-right: 20px;" alt="tickets-icon"  />
 				{% endimage %}					
-				<h2>Make a<br />reservation</h2>
+				<h2>Make a <br />reservation</h2>
 				<br />
 			</div>
 		</div>
@@ -28,7 +28,7 @@
 					<div class="reservation-page-question row">
 						<p>Quand souhaitez-vous venir au musée ?</p>
 						<div class="col-md-6">							
-							{{ form_widget(form.date, {'attr' : {'class':'input-short datepicker','placeholder':'24/01/2017'}}) }}							
+							{{ form_widget(form.date, {'attr' : {'class':'input-short datepicker','placeholder':"now"|date("d/m/Y") }}) }}							
 							{{ form_widget(form.typeResa, {'attr' : {'class':'input-short resa-type'}}) }}
 						</div>
 						<div class="col-md-6">							
@@ -43,7 +43,7 @@
 					
 					<div class="reservation-page-question row">
 						<p>Indiquez les noms, prénoms et dates de naissance des personnes qui participeront à cette visite :</p>
-						<span>! : Un justificatif vous sera demandé en cas de tarif réduit (étudiant, militaire ou équivalent).</span>
+						<div class="reservation-danger"><span>!</span>&nbsp; Un justificatif vous sera demandé en cas de tarif réduit (étudiant, militaire ou équivalent).</div>
 						<div class="col-md-12">
 						{{ form_errors(form.persons) }}												
 												
@@ -74,7 +74,7 @@
 					<div class="reservation-page-question row">
 						<p>Coût total :</p>
 						<div class="col-md-12">							
-							<span class="reservation-page-cout-total input-short"><span>0</span> euros</span>
+							<div class="reservation-page-cout-total input-short"><span>0</span> euros</div>
 						</div>
 					</div>
 					
@@ -100,8 +100,7 @@
 					
 					<div class="reservation-page-question row">
 						<p>Coordonnées de paiement :</p>
-						<span>(Une confirmation vous sera demandée avant validation du paiement.)</span>
-						<br /><br />
+						<div class="reservation-danger">(Une confirmation vous sera demandée avant validation du paiement.)</div>						
 						<div class="col-md-6">																									
 							<input class="input-long" type="text" size="20" data-stripe="number" placeholder="Numéro de carte" />
 							<br /><br />							
@@ -116,7 +115,7 @@
 					
 					<div class="reservation-page-question row">
 						<div class="col-md-12">
-							<input type="submit" class="btn-green input-short" value="Payer" /> <input type="reset" class="btn-orange input-short" value="Annuler" />
+							<input type="submit" class="btn-green input-short" value="Payer" /> <a href="{{ path('homepage') }}" class="btn-orange input-short">Annuler</a>
 						</div>
 					</div>
 				
@@ -192,4 +191,3 @@
 		
 	{% endjavascripts %}
 {% endblock javascripts_body %}
-

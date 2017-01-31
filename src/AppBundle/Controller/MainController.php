@@ -20,7 +20,8 @@ class MainController extends Controller
      */
     public function indexAction(Request $request)
     {
-		$session = new Session();		
+		// $session = new Session(); // fait planter les tests		
+		$session = $this->get('session');
 		$session->clear();
 		
         // replace this example code with whatever you need
@@ -34,7 +35,8 @@ class MainController extends Controller
 	 */
 	public function reservationAction(Request $request)
 	{
-		$session = new Session();
+		// $session = new Session(); // fait planter les tests
+		$session = $this->get('session');
 		$session->set('resa_id', 22);		
 		
 		$resa = new Resa();
@@ -79,28 +81,15 @@ class MainController extends Controller
 	 */
 	public function validationAction(Request $request)
 	{
-		$session = new Session();
+		// $session = new Session(); // fait planter les tests
+		$session = $this->get('session');
 		
-		// $em = $this->get('doctrine.orm.entity_manager');
-		// $resa = $em->getRepository('AppBundle:Resa')->findOneById($id);
-		// $resa = $em->getRepository('AppBundle:Resa')->findOneById($session->get('resa_id'));
 		$resa = $session->get('resa');
 		
 		if (!$resa) throw $this->createNotFoundException('Réservation introuvable !');
 		
 		$total = $this->get('calculator')->calculTotalPrice($resa);
 				
-		/*
-		$total = 0;
-		$persons = $resa->getPersons();
-		foreach ($persons as $person) {
-			if ($person->getAge() >= 4 && $person->getAge() < 12) $total += 8;
-			elseif ($person->getReduction() == 1) $total += 10;
-			elseif ($person->getAge() >= 12 && $person->getAge() < 60) $total += 16;
-			else $total += 12;
-		}
-		*/
-		
 		return $this->render('AppBundle:Main:validation.html.twig', [
 			'resa' => $resa,
 			'total' => $total,
@@ -112,12 +101,13 @@ class MainController extends Controller
 	 */
 	public function confirmationAction(Request $request)
 	{
-		$session = new Session();
+		// $session = new Session(); // fait planter les tests
+		$session = $this->get('session');
 		
 		$resa = $session->get('resa');		
 		if (!$resa) throw $this->createNotFoundException('Réservation introuvable !');
 				
-		// $session->clear();
+		$session->clear();
 		
 		try {	
 		
@@ -139,6 +129,9 @@ class MainController extends Controller
 		$em->flush();
 		
 		$resa->setCode(uniqid($resa->getNom())); // prefix à changer
+		
+		$total = $this->get('calculator')->calculTotalPrice($resa);		
+		$this->get('confirmation_sender')->send($resa, $total);		
 		
 		$em->persist($resa);
 		$em->flush();
@@ -176,41 +169,17 @@ class MainController extends Controller
 	 */
 	public function testAction(Request $request)
 	{			
-		$base_dir = realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR;
-		$path_to_img = $base_dir.'web\images\90e35ed.jpg';
-				
-		$message = \Swift_Message::newInstance();
+		$resa = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Resa')->findOneById(4);		
+		if (!$resa) throw $this->createNotFoundException('Réservation introuvable !');
 		
-		$logo = $message->embed(\Swift_Image::fromPath($path_to_img));
+		$total = $this->get('calculator')->calculTotalPrice($resa);
 		
-		$message
-			->setSubject('Confirmation de votre réservation')
-			->setFrom('billetterie@belugasuperstarmuseum.com')
-			->setTo('bibibeb@hotmail.fr')
-			->setBody(
-				$this->renderView(
-					'AppBundle:Emails:confirmation.html.twig',
-					// 'Emails/confirmation.html.twig',
-					array('logo' => $logo)
-				), 'text/html'
-			)
-			// ->attach($attachment)
-			/*
-			* If you also want to include a plaintext version of the message
-			->addPart(
-			$this->renderView(
-				'Emails/registration.txt.twig',
-				array('name' => $name)
-			),
-			'text/plain'
-			)
-			*/
-			;		
+		$this->get('confirmation_sender')->send($resa, $total);		
 		
-		$this->get('mailer')->send($message);		
-		
-		return $this->render('AppBundle:Main:test.html.twig', [
-        
+		return $this->render('AppBundle:Emails:confirmation.html.twig', [
+			'logo' => 'logo',
+			'resa' => $resa,
+			'total' => $total,
         ]);			
 	}
 }

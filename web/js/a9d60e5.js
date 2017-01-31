@@ -234,16 +234,11 @@ return datepicker.regional.fr;
 		// end name attribute looks like name="contact[emails][2]"
 		newWidget = newWidget.replace(/__name__/g, personsCount);
 		personsCount++;		
+				
+		var $newPerson = $('<div class="oneAddedPerson"></div>').append(newWidget);				
+		$newPerson.appendTo(personsList);
 		
-		<!-- var newLi = $('<div class="oneAddedPerson"></div>').html(newWidget); -->
-		var $newLi = $('<div class="oneAddedPerson"></div>').append(newWidget);
-		
-		$newLi.append('<a href="#" class="remove-person">Remove</a>');
-		
-		$newLi.appendTo(personsList);
-		
-		updateBtnRemovePerson();
-		
+		updateBtnRemovePerson();		
 	}
 
 }) (jQuery)		

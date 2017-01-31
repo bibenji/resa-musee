@@ -110,6 +110,16 @@ footer {
 	background-color: rgba(255,255,255,0.4);
 	cursor: pointer;
 }
+.reservation-danger {
+	color: #bfbfbf;	
+}
+.reservation-danger span {
+	 background-color: #bfbfbf;
+	 color: blue;
+	 padding: 5px 10px;
+	 border-radius: 50%;
+	 font-weight: bold;
+}
 
 /* VALIDATION PAGE */
 .validation-page-main-container {
