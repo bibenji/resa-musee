@@ -24,7 +24,7 @@
 								<td>{{ person.firstname }} {{ person.lastname }}</td>
 								<td>{{ person.age }} ans</td>
 								<td>
-									{{ (person.reduction == 0) ? "Plein tarif" : "Demi-tarif" }}									
+									{{ (resa.typeResa == "F") ? "Toute la journée" : "Demi-journée" }}, {{ (person.reduction == 0) ? "Plein tarif" : "Demi-tarif" }}									
 								</td>
 								<td>
 									{% if resa.typeResa == 'H' %}
@@ -48,8 +48,8 @@
 				</p>
 				<p>Coût total : {{ total }} euros.</p>
 				<p>Réservation au nom de : {{ resa.nom }}</p>
-				<p>Adresse email : {{ resa.email }}</p>				
-				<p>Numéro de carte : 4012 **** **** *****</p>
+				<p>Adresse email : {{ resa.email }}</p>								
+				<p>Carte utilisée pour le paiement : {{ cardNumber }}</p>								
 			</div>
 			<div class="col-md-10 col-md-offset-1">
 				<br />

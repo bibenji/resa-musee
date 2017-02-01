@@ -12,7 +12,7 @@
 			<div class="col-md-12">
 				<h1 class="reservation-page-main-title">The Amazing BELUGA SUPERSTAR MUSEUM</h1>
 			</div>
-			<div class="col-md-12">
+			<div class="col-md-4">
 				<br />
 				{% image '@AppBundle/Resources/public/img/tickets.png' %}
 					<img src="{{ asset_url }}" style="float: left; height: 100px; margin-right: 20px;" alt="tickets-icon"  />
@@ -20,11 +20,22 @@
 				<h2>Make a <br />reservation</h2>
 				<br />
 			</div>
+			<div class="col-lg-6 col-md-12">
+				<br />
+				{% for flash_message in app.session.flashBag.get('info') %}
+				 <div class="alert alert-info alert-dismissable fade in">
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<div class="text-center">
+						<strong>Info !</strong> <br /><br />{{ flash_message }}
+					</div>
+				 </div>
+				{% endfor %}
+			</div>			
 		</div>
 		
 		<div class="row">
 			<div class="col-md-12">
-				{{ form_start(form, {'attr' : {'class':'deep-bg','id':'payment-form'}}) }}				
+				{{ form_start(form, {'attr' : {'class':'deep-bg','id':'payment-form'}}) }}					
 					<div class="reservation-page-question row">
 						<p>Quand souhaitez-vous venir au musée ?</p>
 						<div class="col-md-6">							
@@ -70,13 +81,13 @@
 						<br /><button id="add-another-person" class="btn-deep-blue input-short">Ajouter</button>
 						</div>
 					</div>
-					
+										
 					<div class="reservation-page-question row">
 						<p>Coût total :</p>
 						<div class="col-md-12">							
-							<div class="reservation-page-cout-total input-short"><span>0</span> euros</div>
-						</div>
-					</div>
+							<div class="reservation-page-cout-total input-short"><span>0</span> euros</div> <button class="btn-deep-blue" id="btn-to-count-total" style="display: inline-block">Calculer</button>
+						</div>						
+					</div>					
 					
 					<div class="reservation-page-question row">
 						<p>Réservation au nom de :</p>
@@ -102,7 +113,7 @@
 						<p>Coordonnées de paiement :</p>
 						<div class="reservation-danger">(Une confirmation vous sera demandée avant validation du paiement.)</div>						
 						<div class="col-md-6">																									
-							<input class="input-long" type="text" size="20" data-stripe="number" placeholder="Numéro de carte" />
+							<input class="input-long" name="card" type="text" size="20" data-stripe="number" placeholder="Numéro de carte" />
 							<br /><br />							
 							<input class="" type="text" size="2" data-stripe="exp_month" placeholder="00" /><span> / &nbsp;&nbsp;</span><input type="text" size="2" data-stripe="exp_year" placeholder="00" />
 							<br /><br />
@@ -141,12 +152,59 @@
 		<!-- console.log(availableDates); -->
 	</script>
 	<script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+	
+		<script>
+			var spanCoutTotal = $('.reservation-page-cout-total span');
+			
+			function calculPrix(age, reduction, type) {
+				var prix;
+				if (age < 4) prix = 0;
+				else if (reduction == 1) prix = 10;
+				else if (age >= 4 && age < 12) prix = 8;
+				else if (age >= 60) prix = 12;
+				else prix = 16;
+				
+				if (type == 'H') prix /= 2;
+				
+				return prix;
+			}
+			
+			function countPersonsAndTotalPrice() {
+				var persons = $('.oneAddedPerson').get();
+				var typeResa = $('.resa-type').val();				
+				
+				if (typeResa) {
+					var total = 0;
+					$.each( persons, function( key, elem ) {
+						
+						var selects = $( elem ).children('select');
+						
+						var age = selects[0].value;
+						var reduction = selects[1].value;
+						if (age && reduction) {						
+							// console.log('calcul du prix');
+							total += calculPrix(age, reduction, typeResa);
+						}
+						
+					});
+					spanCoutTotal.text(total);
+				}				
+			}			
+			
+			$('#btn-to-count-total').click(function(e) {
+				e.preventDefault();
+				countPersonsAndTotalPrice();
+			});		
+		</script>		
+	
+	
 	{% javascripts
 		'bundles/app/js/datepicker.js'
 		'bundles/app/js/reservation.js'
-	%}
+	%}	
 		<script src="{{ asset_url }}"></script>
-		
+	{% endjavascripts %}
+	
 		<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 		<script type="text/javascript">
 			Stripe.setPublishableKey('pk_test_ZpqFBfj36X6NW7TNYxGAVBwT');
@@ -189,5 +247,6 @@
 			});
 		</script>
 		
-	{% endjavascripts %}
+	
+	
 {% endblock javascripts_body %}

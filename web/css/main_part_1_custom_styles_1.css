@@ -100,18 +100,21 @@ footer {
 	padding-top: 50px;
 }
 .reservation-page-question p {
-	margin-bottom: 20px;
+	margin-bottom: 15px;
 	font-weight: bold;
 }
 .reservation-page-cout-total {
 	background-color: rgba(255,255,255,0.4);
+	display: inline-block;
 }
 .removePerson:hover {
 	background-color: rgba(255,255,255,0.4);
 	cursor: pointer;
 }
 .reservation-danger {
-	color: #bfbfbf;	
+	color: #bfbfbf;
+	margin-top: -15px;
+	margin-bottom: 15px;
 }
 .reservation-danger span {
 	 background-color: #bfbfbf;
@@ -119,6 +122,9 @@ footer {
 	 padding: 5px 10px;
 	 border-radius: 50%;
 	 font-weight: bold;
+}
+.oneAddedPerson {
+	margin-bottom: 5px;
 }
 
 /* VALIDATION PAGE */

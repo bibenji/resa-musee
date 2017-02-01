@@ -37,9 +37,17 @@ class MainController extends Controller
 	{
 		// $session = new Session(); // fait planter les tests
 		$session = $this->get('session');
-		$session->set('resa_id', 22);		
 		
-		$resa = new Resa();
+		$resa = $session->get('resa');
+		
+		if(!$resa) {
+			$resa = new Resa();
+		}			
+		else {
+			$this->get('session')->getFlashBag()->clear();
+			$this->addFlash('info', 'Une réservation est toujours en cours...');
+		}					
+				
 		$form = $this->createForm(ResaType::class, $resa);
 		
 		$form->handleRequest($request);
@@ -59,6 +67,9 @@ class MainController extends Controller
             // $em->flush();
 			
 			$session->set('resa', $resa);
+			
+			$card = substr($request->request->get('card'), 0, 4).strtr(substr($request->request->get('card'), 4), '0123456789', '**********');
+			$session->set('card', $card);
 			
 			return $this->redirectToRoute('validation');	
 		}
@@ -89,11 +100,14 @@ class MainController extends Controller
 		if (!$resa) throw $this->createNotFoundException('Réservation introuvable !');
 		
 		$total = $this->get('calculator')->calculTotalPrice($resa);
+		
+		$cardNumber = $session->get('card');
 				
 		return $this->render('AppBundle:Main:validation.html.twig', [
 			'resa' => $resa,
 			'total' => $total,
-		]);		
+			'cardNumber' => $cardNumber,
+		]);
 	}
 	
 	/**

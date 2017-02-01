@@ -35,7 +35,7 @@
 					<td>{{ person.firstname }} {{ person.lastname }}</td>
 					<td>{{ person.age }} ans</td>
 					<td>
-						{{ (person.reduction == 0) ? "Plein tarif" : "Demi-tarif" }}									
+						{{ (resa.typeResa == "F") ? "Toute la journée" : "Demi-journée" }}, {{ (person.reduction == 0) ? "Plein tarif" : "Demi-tarif" }}									
 					</td>
 					<td>
 						{% if resa.typeResa == 'H' %}
@@ -69,7 +69,7 @@
 				</p>
 				<p>Ou contact :</p>
 				<p>
-					<a href="mailto:contact@belugamuseum.com">Nous écrire</a>
+					<a href="mailto:contact@amazingbelugamuseum.com">Nous écrire</a>
 				</p>
 			</div>
 		</div>

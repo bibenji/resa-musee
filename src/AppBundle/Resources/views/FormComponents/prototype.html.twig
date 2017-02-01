@@ -1,11 +1,9 @@
-<div class="oneAddedPerson">
-	{{ form_errors(form.lastname) }}								
-	{{ form_widget(form.lastname, {'attr' : {'class':'input-short','placeholder':'Nom'}}) }}
-	{{ form_errors(form.firstname) }}								
-	{{ form_widget(form.firstname, {'attr' : {'class':'input-short','placeholder':'Prénom'}}) }}
-	{{ form_errors(form.age) }}								
-	{{ form_widget(form.age, {'attr' : {'class':'input-short'}}) }}
-	{{ form_errors(form.reduction) }}								
-	{{ form_widget(form.reduction, {'attr' : {'class':'input-short'}}) }}
-	<span class="removePerson">X</span>
-</div>
+{{ form_errors(form.lastname) }}								
+{{ form_widget(form.lastname, {'attr' : {'class':'input-short','placeholder':'Nom'}}) }}
+{{ form_errors(form.firstname) }}								
+{{ form_widget(form.firstname, {'attr' : {'class':'input-short','placeholder':'Prénom'}}) }}
+{{ form_errors(form.age) }}								
+{{ form_widget(form.age, {'attr' : {'class':'input-short'}}) }}
+{{ form_errors(form.reduction) }}								
+{{ form_widget(form.reduction, {'attr' : {'class':'input-short'}}) }}
+<span class="removePerson">X</span>
