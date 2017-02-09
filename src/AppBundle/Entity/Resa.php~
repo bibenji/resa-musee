@@ -285,4 +285,28 @@ class Resa
     {
         return $this->code;
     }
+
+    /**
+     * Set typeResa
+     *
+     * @param string $typeResa
+     *
+     * @return Resa
+     */
+    public function setTypeResa($typeResa)
+    {
+        $this->typeResa = $typeResa;
+
+        return $this;
+    }
+
+    /**
+     * Get typeResa
+     *
+     * @return string
+     */
+    public function getTypeResa()
+    {
+        return $this->typeResa;
+    }
 }

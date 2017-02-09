@@ -48,6 +48,11 @@ class Person
      * @ORM\Column(name="reduction", type="integer", nullable=true)
      */
     private $reduction;
+	
+	/**
+	* @ORM\ManyToMany(targetEntity="Resa", mappedBy="persons")
+	*/
+	private $resas;
 
 
 	
@@ -155,5 +160,46 @@ class Person
     public function getReduction()
     {
         return $this->reduction;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->resas = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add resa
+     *
+     * @param \AppBundle\Entity\Resa $resa
+     *
+     * @return Person
+     */
+    public function addResa(\AppBundle\Entity\Resa $resa)
+    {
+        $this->resas[] = $resa;
+
+        return $this;
+    }
+
+    /**
+     * Remove resa
+     *
+     * @param \AppBundle\Entity\Resa $resa
+     */
+    public function removeResa(\AppBundle\Entity\Resa $resa)
+    {
+        $this->resas->removeElement($resa);
+    }
+
+    /**
+     * Get resas
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getResas()
+    {
+        return $this->resas;
     }
 }

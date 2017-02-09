@@ -12,14 +12,18 @@ class ResaRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function getFullDays()
 	{
+		$today = new \DateTime('now');
+		$today->modify('-1 day');
+		
 		$qb = $this->_em->createQuery('
 			SELECT r.date
-			FROM AppBundle:Resa r			
+			FROM AppBundle:Resa r
+			JOIN r.persons p
 			GROUP BY r.date
-			HAVING r.date >= :now AND COUNT(r) >= 10
-			
+			HAVING r.date >= :now
+			AND COUNT(p) >= 10			
 		')
-			->setParameter('now', new \DateTime('now'))
+			->setParameter('now', $today)
 		;
 		// HAVING COUNT(r) >= 10
 		// à rajouter après tests

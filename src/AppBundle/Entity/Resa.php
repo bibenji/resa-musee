@@ -75,7 +75,7 @@ class Resa
     private $code;	
 	
 	/**
-	 * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"})
+	 * @ORM\ManyToMany(targetEntity="Person", cascade={"persist"}, inversedBy="resas")
      * @ORM\JoinTable(name="resa_persons",
      *      joinColumns={@ORM\JoinColumn(name="resa_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="person_id", referencedColumnName="id", unique=true)}

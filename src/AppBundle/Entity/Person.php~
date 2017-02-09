@@ -48,6 +48,11 @@ class Person
      * @ORM\Column(name="reduction", type="integer", nullable=true)
      */
     private $reduction;
+	
+	/**
+	* @ORM\ManyToMany(targetEntity="Resa", mappedBy="persons")
+	*/
+	private $resas;
 
 
 	

@@ -158,7 +158,7 @@ class MainController extends Controller
 	 */
 	public function fullDaysAction()
 	{
-		$fullDays = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Resa')->getFullDays();
+		$fullDays = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Resa')->getFullDaysTest();
 				
 		$fullDates = array();
 		foreach ($fullDays as $oneDay) {
