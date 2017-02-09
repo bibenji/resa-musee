@@ -10,22 +10,16 @@ AppBundle\Entity\Resa:
             - Choice:
                 choices: [F, H]            
         nom:
-            - NotBlank: ~
-        email:
-            - NotBlank: ~
-            - Email: ~       
+            - Length:
+                min: 2
+                max: 50
+                minMessage: 'Le nom est trop court !'
+                maxMessage: 'Le nom est trop long !'
+        email:            
+            - Email: ~     
         persons:
             - Count:
                 min: 1
                 max: 10
                 minMessage: 'Aucun visiteur enregistré !'
                 maxMessage: 'Vous avez dépassé le nombre maximum de visiteurs par réservation !'
-
-AppBundle\Entity\Person:    
-    properties:
-        firstname:
-            - NotBlank: ~
-        lastname:
-            - NotBlank: ~           
-        age:
-            - NotBlank: ~
