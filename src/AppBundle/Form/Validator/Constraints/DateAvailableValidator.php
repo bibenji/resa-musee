@@ -50,5 +50,17 @@ class DateAvailableValidator extends ConstraintValidator
                 // ->setParameter('%string%', $value)
                 ->addViolation();
 		}
+		
+		$today = new \DateTime();
+		if (
+			$today->format('d-m-Y') == '09-02-2017'
+			AND
+			$today->format('H') >= '18'    	
+		) {
+			$this
+				->context->buildViolation($constraint->dayEnd)
+                // ->setParameter('%string%', $value)
+                ->addViolation();
+		}
     }
 }
