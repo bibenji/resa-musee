@@ -6,12 +6,17 @@
 		<title>Confirmation de votre réservation</title>
 		<style>
 			body { font-family: Arial; color: black; margin: 0px; padding: 0px;}
-			.bandeau-bleu { background-color: #26519e; color: white;}
-			.bandeau-bleu, .bandeau-blanc {  padding: 10px;}
-			img { width: 100px; height: 100px; margin-top: 5px; margin-right: 5px; display: inline-block}
-			.title { display: inline-block; margin: 0px; padding: 0px; vertical-align: top; font-size: 23px; margin-top: 1px;}
+			.bandeau-bleu { background-color: #26519e; border: 1px solid #26519e; color: white; margin: 0px;}
+			.bandeau-bleu, .bandeau-blanc {  padding: 5px;}
+			
+			img { width: auto; height: 250px; display: inline-block; margin-right: 15px;}
+			.title { display: inline-block; margin: 0px; padding: 0px; vertical-align: top; font-size: 50px;}
+			h2 { margin: 20px 0px 0px;}
+			
 			h1 { margin: 20px 0px 20px 0px; color: #26519e;}
-			table { min-width: 50%;}			
+			table { min-width: 50%; width: 100%;}
+
+			.text-center { text-align: center;}
 			
 		</style>
 	</head>
@@ -19,15 +24,15 @@
 	<body>
 		
 		<div class="bandeau-bleu">		
-			{#<img src="{{ logo }}" alt="baby-beluga-draw" />#}
-			<img src="http://blogs.discovermagazine.com/d-brief/files/2015/12/shutterstock_58217023.jpg" style="" />
-			<h2 class="title">The<br />Beluga<br />Superstar<br />Museum</h2>																			
+			<img src="{{ logo }}" alt="baby-beluga-draw" />
+			{#<img src="http://blogs.discovermagazine.com/d-brief/files/2015/12/shutterstock_58217023.jpg" style="" />#}
+			<h2 class="title">The Amazing<br />BELUGA<br />SUPERSTAR<br />MUSEUM</h2>																			
 		</div>
 		
 		<div class="bandeau-blanc">
 			<h1>Confirmation de votre réservation !</h1>
 			<p>Votre réservation pour le {{ resa.date|date('d/m/Y') }} a bien été prise en compte !</p>
-			<p>Récapitulatif de votre réservation :</p>
+			<p><u>Récapitulatif de votre réservation :</u></p>
 			<table>
 				<legend>{#Participants#}</legend>
 				{% for person in resa.persons %}
@@ -47,7 +52,14 @@
 				</tr>
 				{% endfor %}
 				<tr>
-					<td colspan="3" style="text-align: right"><br />Total :</td><td><br />{{ total }} euros</td>
+					<td colspan="3" style="text-align: right">
+						<br />
+						<strong>Total :</strong>
+					</td>
+					<td>
+						<br />
+						<strong>{{ total }} euros</strong>
+					</td>
 				</tr>
 			</table>
 			<p>Votre billet vous autorise à entrer dans le musée à partir de {{ (resa.typeResa == 'H') ? "14h" : "9h" }}.</p>
@@ -55,19 +67,20 @@
 		</div>
 		
 		<div class="bandeau-bleu">
-			<h2>Code de réservation : {{ resa.code }}</h2>
-			<div>Ce code pourra vous être demandé à l'entrée du musée.</div>
+			<br />
+			<h2 class="text-center">Code de réservation : {{ resa.code }}</h2>
+			<p class="text-center">Attention, ce code vous sera demandé à l'entrée du musée !</p>
 			<br />
 		</div>
 		
 		<div class="bandeau-blanc">
 			<h1>A bientôt !</h1>
 			<div class="end-of-mail">
-				<p>Plus d'infos et réclamation sur notre site :</p>
+				<p>Plus d'infos et réservations sur notre site :</p>
 				<p>
 					<a href="www.theamazingbelugamuseum.com">www.theamazingbelugamuseum.com</a>
 				</p>
-				<p>Ou contact :</p>
+				<p>Pour toute réclamation, merci de nous contacter par courriel :</p>
 				<p>
 					<a href="mailto:contact@amazingbelugamuseum.com">Nous écrire</a>
 				</p>

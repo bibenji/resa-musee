@@ -7,8 +7,7 @@
 			<div class="col-md-9">
 				<h1 class="homepage-main-title">The Amazing <br />BELUGA <br />SUPERSTAR <br />MUSEUM</h1>
 			</div>
-			<div class="col-md-3">
-				<br />
+			<div class="col-md-3">				
 				<a href="{{ path('reservation') }}" class="homepage-menu-btn">Make a reservation</a>
 				<a href="#sea-more" class="homepage-menu-btn" data-target="sea-more">Sea more</a>
 				<a href="#informations" class="homepage-menu-btn" data-target="informations">Informations</a>
@@ -24,8 +23,9 @@
 						<p>What is The Amazing BELUGA SUPERSTAR MUSEUM?</p>
 						<p>It's not simply a museum with many belugas, it's a real paradise full of love and hapiness!</p>
 						<p>So, come to see us!</p>
+						<br />
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-6 text-center">
 						{% image '@AppBundle/Resources/public/img/homepage-beluga.jpg' %}
 							<img src="{{ asset_url }}" class="homepage-illustration" alt="homepage-beluga"  />
 						{% endimage %}							
@@ -44,8 +44,9 @@
 						<p>Venir au musée :</p>
 						<p>12, Splash String<br />732 235 SPRING OCEAN</p>
 						<p>Afficher dans Google Map (à venir)</p>
+						<br />
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-6 text-center">
 						{% image '@AppBundle/Resources/public/img/homepage-map.png' %}
 							<img src="{{ asset_url }}" class="homepage-illustration" alt="homepage-map"  />
 						{% endimage %}							

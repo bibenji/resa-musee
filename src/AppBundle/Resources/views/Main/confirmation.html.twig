@@ -15,16 +15,20 @@
 						<p>Merci ! Vous allez bientôt recevoir un email contenant un récapitulatif pour la visite !</p>
 						<p>Votre code de réservation est :</p>
 						<p>{{ resa.code }}</p>
+						<p>Il vous sera demandé à l'entrée du musée.</p>
 						<p>En cas de problème :</p>
 						<p>contact@amazingbelugamuseum.com</p>
 						<p>A bientôt !</p>
-						
-						<a class="btn-light-blue" href="{{ path('homepage') }}">Continuer</a>
 					</div>
+					
 					<div class="col-md-6">
 						{% image '@AppBundle/Resources/public/img/baby-beluga-draw.png' %}
 							<img src="{{ asset_url }}" alt="baby-beluga-draw"  />
-						{% endimage %}													
+						{% endimage %}																		
+					</div>
+					
+					<div class="col-md-12 text-center">
+						<a class="btn-light-blue" href="{{ path('homepage') }}">Retourner à l'accueil</a>
 					</div>
 				</div>
 			</div>

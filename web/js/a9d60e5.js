@@ -163,6 +163,7 @@ return datepicker.regional.fr;
 	});	
 	
 	$('.resa-type').change(function() {
+		countPersonsAndTotalPrice(); // mise à jour du prix total
 		if ($(this).val() == "H") {
 			$('#type-info-1').show();
 		} else {

@@ -3,147 +3,75 @@ input[type="text"], select,
 .btn-deep-blue, .btn-light-blue, .btn-green, .btn-orange,
 .reservation-page-cout-total,
 .removePerson {
-	border: solid 1px rgba(255,255,255,0.4);	
-	color: white;
-	border-radius: 5px;
-	padding: 10px 20px;
-	margin-right: 10px;	
-}
-input[type="text"], select {
-	background-color: rgba(0,0,0,0);
-}
-.input-short {
-	width: 180px;
-}
-.input-long {
-	width: 360px;
-}
-.btn-light-blue {
-	background-color: rgba(255,255,255,0.2);	
-}
-.btn-deep-blue {	
-	background-color: rgba(12,44,103,0.4);	
-}
-.btn-deep-blue:hover {
-	background-color: rgba(255,255,255,0.4);
-	color: rgba(12,44,103,1);
-}
-.btn-green {
-	background-color: rgba(39,174,96,0.6);	
-}
-.btn-orange {
-	background-color: rgba(230,126,34,0.6);	
-}
+	border: solid 1px rgba(255,255,255,0.4); color: white; border-radius: 5px; padding: 10px 20px; margin-right: 10px; display: inline-block;}
+input[type="text"], select { background-color: rgba(0,0,0,0);}
+.input-short { width: 180px; max-width: 100%;}
+.input-long { width: 360px; max-width: 100%;}
+.btn-light-blue { background-color: rgba(255,255,255,0.2); text-align: center;}
+.btn-deep-blue { background-color: rgba(12,44,103,0.4);}
+.btn-deep-blue:hover { background-color: rgba(255,255,255,0.4); color: rgba(12,44,103,1);}
+.btn-green { background-color: rgba(39,174,96,0.6); text-align: center;}
+.btn-orange { background-color: rgba(230,126,34,0.6); text-align: center;}
 .btn-green:hover, .btn-orange:hover { text-decoration: none;}
-
-body {
-	color: white;
-	background-color: #26519e;
-}
-
+body { color: white; background-color: #3555AD;}
 .reservation-page, .validation-page, .confirmation-page {
-	background-image: url('../../bundles/app/img/second-bg.jpg');
-	background-size: 100% 2000px;	
-}
-
+	background-image: url('../../bundles/app/img/second-bg.jpg'); background-size: 100% 2000px; background-repeat: no-repeat; background-color: #01268e;}
 .deep-bg, .reservation-page-form, .validation-page-deep-bg {
-	background-color: rgba(0,0,0,0.4);
-	padding: 0px 40px 50px;
-}
+	background-color: rgba(0,0,0,0.4); padding: 0px 40px 50px;}
 
+	
 /* HOMEPAGE */
-.homepage {
-	background-image: url('../../bundles/app/img/homepage-bg.jpg');
-	background-size: 100% 2000px;
-	
-}
-.homepage-main-title {
-	font-size: 90px;
-	margin-bottom: 100px;
-}
+.homepage { background-image: url('../../bundles/app/img/homepage-bg.jpg'); background-size: 100% 2000px; background-repeat: no-repeat; background-color: #01268e;}
+.homepage-main-title { font-size: 90px; margin-bottom: 100px;}
 .homepage-menu-btn {
-	font-size: 20px;
-	border-radius: 5px;
-	background-color: rgba(255,255,255,0.4);
-	border: solid 1px white;
-	margin-top: 10px;
-	text-decoration: none;
-	color: white;
-	padding: 10px 20px;
-	display: block;
-	text-align: center;
-}
-.homepage-menu-btn:hover {
-	text-decoration: none;
-}
-.homepage-illustration {
-	width: 300px;
-	height: 200px;
-}
-.homepage-black-text-content {
-	color: black;
-	padding: 0px 50px 0px 100px;
-	
-}
-.homepage h2 {
-	line-height: 50px;
-	margin: 50px 0px 25px;
-}
+	font-size: 20px; border-radius: 5px; background-color: rgba(255,255,255,0.4); border: solid 1px white; margin-top: 10px;
+	text-decoration: none; color: white; padding: 10px 20px; display: block; text-align: center; max-width: 96%;}
+.homepage-menu-btn:hover, .homepage-menu-btn:focus { text-decoration: none;}
+.homepage-illustration { width: 300px; height: 200px;}
+.homepage-black-text-content { color: black; padding: 0px 50px 0px 50px;}
+.homepage h2 { line-height: 50px; margin: 50px 0px 25px 10px;}
+footer { text-align: center; padding: 50px 0px 25px;}
 
-footer {
-	text-align: center;
-	padding: 50px 0px 25px;
-}
 
 /* RESERVATION PAGE */
-.reservation-page-question {
-	padding-top: 50px;
+.reservation-page-question { padding-top: 50px;}
+.reservation-page-question p { margin-bottom: 15px; font-weight: bold;}
+.reservation-page-cout-total { background-color: rgba(255,255,255,0.4); display: inline-block;}
+.removePerson:hover { background-color: rgba(255,255,255,0.4); cursor: pointer;}
+.reservation-danger { color: #bfbfbf; margin-top: -15px; margin-bottom: 15px;}
+.reservation-danger span { background-color: #bfbfbf; color: blue; padding: 5px 10px; border-radius: 50%; font-weight: bold;}
+.oneAddedPerson { margin-bottom: 5px;}
+.coordos-paiement {
+    background-color: rgba(12,44,103,0.8);
+    padding: 20px;
+    border-radius: 5px;
+    margin: 50px auto 0px;
 }
-.reservation-page-question p {
-	margin-bottom: 15px;
-	font-weight: bold;
-}
-.reservation-page-cout-total {
-	background-color: rgba(255,255,255,0.4);
-	display: inline-block;
-}
-.removePerson:hover {
-	background-color: rgba(255,255,255,0.4);
-	cursor: pointer;
-}
-.reservation-danger {
-	color: #bfbfbf;
-	margin-top: -15px;
-	margin-bottom: 15px;
-}
-.reservation-danger span {
-	 background-color: #bfbfbf;
-	 color: blue;
-	 padding: 5px 10px;
-	 border-radius: 50%;
-	 font-weight: bold;
-}
-.oneAddedPerson {
-	margin-bottom: 5px;
-}
+
 
 /* VALIDATION PAGE */
-.validation-page-main-container {
-	border: 1px solid rgba(255,255,255,0.4);
-	border-radius: 5px;
-	font-weight: bold;
-}
-.validation-page-main-container p:first-child {
-	padding-top: 50px;
-}
+.validation-page-main-container { border: 1px solid rgba(255,255,255,0.4); border-radius: 5px; font-weight: bold;}
+.validation-page-main-container p:first-child { padding-top: 50px;}
+
 
 /* CONFIRMATION PAGE */
-.confirmation-page-confirmation-text {
-	font-weight: bold;
-	font-size: 20px;
-	padding-top: 70px;
-}
-.confirmation-page-confirmation-text img {
-	display: block;
-	margin: 30px auto 0px;
+.confirmation-page-confirmation-text { font-weight: bold; font-size: 20px; padding-top: 70px;}
+.confirmation-page-confirmation-text img { display: block; margin: 30px auto 0px;}
+
+
+/* SMALL SCREENS */
+@media screen and (max-width: 640px) {
+	.homepage-main-title {
+		font-size: 45px; margin-bottom: 0px;
+	}
+	.input-short, .input-long, .btn-green, .btn-orange, .btn-light-blue {
+		display: block; margin: 0px auto 10px; width: 100%;
+	}
+	.validation-page-main-container {
+		margin: auto 10px;
+	}
+	.coordos-paiement {		
+		padding: 10px;		
+		margin: 40px auto 0px;
+	}
 }
