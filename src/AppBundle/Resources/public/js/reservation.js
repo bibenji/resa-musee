@@ -1,7 +1,6 @@
+// Gère l'ajout de personnes à la réservation
 (function($) {
-				
-	// PERSONS
-	// keep track of how many email fields have been rendered
+		
 	var personsCount = $('.oneAddedPerson').length;
 	
 	var personsList = $('#persons-fields-list');
@@ -11,15 +10,13 @@
 		addPerson();
 	});
 	
+	// fonction pour MAJ champs intervenant dans le calcul du prix total
 	function updateSelectWatchers() {		
 		var allSelects = $('#persons-fields-list').find('select');
 		
 		allSelects.change(function() {
 			countPersonsAndTotalPrice();
 		});
-		
-			
-		
 	}
 	
 	function updateBtnRemovePerson() {
@@ -36,10 +33,7 @@
 	countPersonsAndTotalPrice(); // au chargement de la page
 	
 	function addPerson() {
-		var newWidget = personsList.attr('data-prototype');
-		// replace the "__name__" used in the id and name of the prototype
-		// with a number that's unique to your emails
-		// end name attribute looks like name="contact[emails][2]"
+		var newWidget = personsList.attr('data-prototype');		
 		newWidget = newWidget.replace(/__name__/g, personsCount);
 		personsCount++;		
 				
@@ -50,5 +44,4 @@
 		updateBtnRemovePerson(); // remise à jour des btn .removePerson à surveiller		
 	}
 
-}) (jQuery)		
-	
+}) (jQuery)

@@ -1,3 +1,49 @@
+// Attention : ce fichier doit être implémenté en premier !
+// FONCTIONS DE CALCUL LIVE DU COUT DE LA RESERVATION
+var spanCoutTotal = $('.reservation-page-cout-total span');
+
+function calculPrix(age, reduction, type) {
+	var prix;
+	if (age < 4) prix = 0;
+	else if (reduction == 1) prix = 10;
+	else if (age >= 4 && age < 12) prix = 8;
+	else if (age >= 60) prix = 12;
+	else prix = 16;
+	
+	if (type == 'H') prix /= 2;
+	
+	return prix;
+}
+
+function countPersonsAndTotalPrice() {
+	var persons = $('.oneAddedPerson').get();
+	var typeResa = $('.resa-type').val();				
+	
+	if (typeResa) {
+		var total = 0;
+		$.each( persons, function( key, elem ) {
+			
+			var selects = $( elem ).children('select');
+			
+			var age = selects[0].value;
+			var reduction = selects[1].value;
+			if (age && reduction) {										
+				total += calculPrix(age, reduction, typeResa);
+			}
+			
+		});
+		spanCoutTotal.text(total);
+	}				
+}			
+
+// bouton caché
+$('#btn-to-count-total').click(function(e) {
+	e.preventDefault();
+	countPersonsAndTotalPrice();
+});
+
+
+
 // MISE EN PLACE DU DATEPICKER
 $(function() {
 
@@ -149,6 +195,95 @@ function checkDatepicker() {
 		} else {
 			$('#type-info-1').hide();
 		}			
+	});
+	
+});
+// Gère l'ajout de personnes à la réservation
+(function($) {
+		
+	var personsCount = $('.oneAddedPerson').length;
+	
+	var personsList = $('#persons-fields-list');
+	
+	$('#add-another-person').on('click', function(e) {
+		e.preventDefault();
+		addPerson();
+	});
+	
+	// fonction pour MAJ champs intervenant dans le calcul du prix total
+	function updateSelectWatchers() {		
+		var allSelects = $('#persons-fields-list').find('select');
+		
+		allSelects.change(function() {
+			countPersonsAndTotalPrice();
+		});
+	}
+	
+	function updateBtnRemovePerson() {
+		$('.removePerson').click(function(e) {
+			e.preventDefault();
+			$(this).parent().remove();
+			countPersonsAndTotalPrice(); // mise à jour du prix
+			return false;
+		});
+	}
+	
+	updateSelectWatchers(); // au chargement de la page
+	updateBtnRemovePerson(); // au chargement de la page
+	countPersonsAndTotalPrice(); // au chargement de la page
+	
+	function addPerson() {
+		var newWidget = personsList.attr('data-prototype');		
+		newWidget = newWidget.replace(/__name__/g, personsCount);
+		personsCount++;		
+				
+		var $newPerson = $('<div class="oneAddedPerson"></div>').append(newWidget);				
+		$newPerson.appendTo(personsList);
+		
+		updateSelectWatchers(); // remise à jour des selects à surveiller
+		updateBtnRemovePerson(); // remise à jour des btn .removePerson à surveiller		
+	}
+
+}) (jQuery)
+Stripe.setPublishableKey('pk_test_ZpqFBfj36X6NW7TNYxGAVBwT');
+
+function stripeResponseHandler(status, response) {
+
+	var $form = $('#payment-form'); // Grab the form:
+
+	if (response.error) { // Problem!
+
+		// Show the errors on the form:
+		$form.find('.payment-errors').html('<ul><li>'+response.error.message+'</li></ul>');
+		$form.find('.submit').prop('disabled', false); // Re-enable submission
+
+	} else { // Token was created!
+
+		// Get the token ID:
+		var token = response.id;
+
+		// Insert the token ID into the form so it gets submitted to the server:
+		$form.append($('<input type="hidden" name="stripeToken">').val(token));
+
+		// Submit the form:
+		$form.get(0).submit();
+	}
+};
+
+$(function() {
+
+	var $form = $('#payment-form');
+
+	$form.submit(function(event) {
+
+		// Disable the submit button to prevent repeated clicks:
+		$form.find('.submit').prop('disabled', true);
+
+		// Request a token from Stripe:
+		Stripe.card.createToken($form, stripeResponseHandler);
+
+		// Prevent the form from being submitted:
+		return false;
 	});
 	
 });

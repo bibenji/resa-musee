@@ -17,7 +17,7 @@
 				{% image '@AppBundle/Resources/public/img/tickets.png' %}
 					<img src="{{ asset_url }}" style="float: left; height: 100px; margin-right: 20px;" alt="tickets-icon"  />
 				{% endimage %}					
-				<h2>Make a <br />reservation</h2>
+				<h2>Faire une <br />réservation</h2>
 				<br />
 			</div>
 			<div class="col-lg-6 col-md-12">
@@ -85,14 +85,14 @@
 					<div class="reservation-page-question row">
 						<p>Coût total :</p>
 						<div class="col-md-12">							
-							<div class="reservation-page-cout-total input-short"><span>0</span> euros</div> <button class="btn-deep-blue" id="btn-to-count-total" style="display: inline-block">Calculer</button>
+							<div class="reservation-page-cout-total input-short"><span>0</span> euros</div> <button style="display: none;" class="btn-deep-blue" id="btn-to-count-total" style="display: inline-block">Calculer</button>
 						</div>						
 					</div>					
 					
 					<div class="reservation-page-question row">
 						<p>Réservation au nom de :</p>
 						<div class="col-md-6">														
-							{{ form_widget(form.nom, {'attr' : {'class':'input-short','placeholder':'Nom','data-stripe':'name'}}) }}						
+							{{ form_widget(form.nom, {'attr' : {'class':'input-short','placeholder':'NOM','data-stripe':'name'}}) }}						
 						</div>
 						<div class="col-md-6">
 							{{ form_errors(form.nom) }}
@@ -115,7 +115,7 @@
 						<div class="col-md-6">																									
 							<input class="input-long" name="card" type="text" size="20" data-stripe="number" placeholder="Numéro de carte" />
 							<br /><br />							
-							<input class="" type="text" size="2" data-stripe="exp_month" placeholder="00" /><span> / &nbsp;&nbsp;</span><input type="text" size="2" data-stripe="exp_year" placeholder="00" />
+							<input class="" type="text" size="2" data-stripe="exp_month" placeholder="Mois" /><span> / &nbsp;&nbsp;</span><input type="text" size="2" data-stripe="exp_year" placeholder="An" /> <span class="reservation-danger">(Date d'expiration)</span>
 							<br /><br />
 							<input class="input-short" type="text" size="4" data-stripe="cvc" placeholder="Cryptogramme" />
 						</div>
@@ -145,108 +145,24 @@
 {% endblock content %}
 
 {% block javascripts_body %}	
+
 	{{ parent() }}
+	
 	<script type="text/javascript">	
-		var availableDates = {{ fullDates|json_encode()|raw }};
-		<!-- var availableDates = [{"date":{"date":"2017-01-24 00:00:00.000000","timezone_type":3,"timezone":"Europe\/Berlin"}},{"date":{"date":"2017-01-25 00:00:00.000000","timezone_type":3,"timezone":"Europe\/Berlin"}},{"date":{"date":"2017-01-31 00:00:00.000000","timezone_type":3,"timezone":"Europe\/Berlin"}},{"date":{"date":"2017-02-01 00:00:00.000000","timezone_type":3,"timezone":"Europe\/Berlin"}},{"date":{"date":"2017-03-26 00:00:00.000000","timezone_type":3,"timezone":"Europe\/Berlin"}},{"date":{"date":"2017-11-11 00:00:00.000000","timezone_type":3,"timezone":"Europe\/Berlin"}}]; -->
-		<!-- console.log(availableDates); -->
+		var availableDates = {{ fullDates|json_encode()|raw }};		
 	</script>
+	
 	<script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
 	
-		<script>
-			var spanCoutTotal = $('.reservation-page-cout-total span');
-			
-			function calculPrix(age, reduction, type) {
-				var prix;
-				if (age < 4) prix = 0;
-				else if (reduction == 1) prix = 10;
-				else if (age >= 4 && age < 12) prix = 8;
-				else if (age >= 60) prix = 12;
-				else prix = 16;
-				
-				if (type == 'H') prix /= 2;
-				
-				return prix;
-			}
-			
-			function countPersonsAndTotalPrice() {
-				var persons = $('.oneAddedPerson').get();
-				var typeResa = $('.resa-type').val();				
-				
-				if (typeResa) {
-					var total = 0;
-					$.each( persons, function( key, elem ) {
-						
-						var selects = $( elem ).children('select');
-						
-						var age = selects[0].value;
-						var reduction = selects[1].value;
-						if (age && reduction) {						
-							// console.log('calcul du prix');
-							total += calculPrix(age, reduction, typeResa);
-						}
-						
-					});
-					spanCoutTotal.text(total);
-				}				
-			}			
-			
-			$('#btn-to-count-total').click(function(e) {
-				e.preventDefault();
-				countPersonsAndTotalPrice();
-			});		
-		</script>		
-	
-	
+	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+		
 	{% javascripts
+		'bundles/app/js/calculator.js'
 		'bundles/app/js/datepicker.js'
 		'bundles/app/js/reservation.js'
+		'bundles/app/js/stripe.js'
 	%}	
 		<script src="{{ asset_url }}"></script>
 	{% endjavascripts %}
-	
-		<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-		<script type="text/javascript">
-			Stripe.setPublishableKey('pk_test_ZpqFBfj36X6NW7TNYxGAVBwT');
-
-			function stripeResponseHandler(status, response) {
-			  // Grab the form:
-			  var $form = $('#payment-form');
-
-			  if (response.error) { // Problem!
-
-				// Show the errors on the form:
-				$form.find('.payment-errors').html('<ul><li>'+response.error.message+'</li></ul>');
-				$form.find('.submit').prop('disabled', false); // Re-enable submission
-
-			  } else { // Token was created!
-
-				// Get the token ID:
-				var token = response.id;
-
-				// Insert the token ID into the form so it gets submitted to the server:
-				$form.append($('<input type="hidden" name="stripeToken">').val(token));
-
-				// Submit the form:
-				$form.get(0).submit();
-			  }
-			};
-			
-			$(function() {
-			  var $form = $('#payment-form');
-			  $form.submit(function(event) {
-				// Disable the submit button to prevent repeated clicks:
-				$form.find('.submit').prop('disabled', true);
-
-				// Request a token from Stripe:
-				Stripe.card.createToken($form, stripeResponseHandler);
-
-				// Prevent the form from being submitted:
-				return false;
-			  });
-			});
-		</script>
 		
-	
-	
 {% endblock javascripts_body %}

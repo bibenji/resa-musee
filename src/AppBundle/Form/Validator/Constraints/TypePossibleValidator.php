@@ -15,7 +15,7 @@ class TypePossibleValidator extends ConstraintValidator
 			AND
 			$resa->getDate()->format('d-m-Y') == $date->format('d-m-Y')
 			AND
-			$date->format('H') >= '14'
+			$date->format('H') >= '14' // si il est plus de 14h // manque le cas plus de 18h
 		) { 
 			$this
 				->context->buildViolation($constraint->message)

@@ -8,10 +8,10 @@
 				<h1 class="homepage-main-title">The Amazing <br />BELUGA <br />SUPERSTAR <br />MUSEUM</h1>
 			</div>
 			<div class="col-md-3">				
-				<a href="{{ path('reservation') }}" class="homepage-menu-btn">Make a reservation</a>
+				<a href="{{ path('reservation') }}" class="homepage-menu-btn">Réserver</a>
 				<a href="#sea-more" class="homepage-menu-btn" data-target="sea-more">Sea more</a>
 				<a href="#informations" class="homepage-menu-btn" data-target="informations">Informations</a>
-				<a href="#prices" class="homepage-menu-btn" data-target="prices">Prices</a>
+				<a href="#prices" class="homepage-menu-btn" data-target="prices">Tarifs</a>
 			</div>
 		</div>
 		
@@ -114,27 +114,10 @@
 {% endblock content %}
 
 {% block javascripts_body %}	
-	{{ parent() }}
-	<script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>	
-	<!-- Finalement pas utilisé
-	<script src="http://cdn.jsdelivr.net/jquery.scrollto/2.1.2/jquery.scrollTo.min.js"></script>	
-	-->
-	<script>
+	{{ parent() }}	
 	
-		$(function() {
-			console.log('coucou');
-			$('.homepage-menu-btn').click(function(e) {				
-				
-					var page = $(this).attr('href'); // Page cible
-					var speed = 750; // Durée de l'animation (en ms)
-					$('html, body').animate({
-						scrollTop: $(page).offset().top
-					}, speed ); // Go
-					return false;				
-			});
-		});
-		
-	</script>		
-	{% javascripts %}
+	{% javascripts 'bundles/app/js/autoscroll.js' %}	
+		<script src="{{ asset_url }}"></script>
 	{% endjavascripts %}
+	
 {% endblock javascripts_body %}

@@ -36,7 +36,7 @@ class MainControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/reservation');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Make a reservation', $crawler->filter('h2')->text());
+        $this->assertContains('Faire une réservation', $crawler->filter('h2')->text());
     }
 	
 	public function testPostUnvalidReservation()

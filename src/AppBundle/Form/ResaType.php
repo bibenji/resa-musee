@@ -27,13 +27,12 @@ class ResaType extends AbstractType
 			->add('date', DateType::class, array(							
 								
 				'widget' => 'single_text',				
-				'format' => 'dd/MM/yyyy',
-
-				// 'widget' => 'single_text',
 				// do not render as type="date", to avoid HTML5 date pickers
 				// 'html5' => false,
 				// add a class that can be selected in JavaScript
 				// 'attr' => ['class' => 'js-datepicker'],
+				
+				'format' => 'dd/MM/yyyy',				
 				
 			))
 			->add('typeResa', ChoiceType::class, array(
@@ -42,9 +41,11 @@ class ResaType extends AbstractType
 					'Demi-journée' => 'H',
 				),
 			))
+			/*
 			->add('persons', EntityType::class, [
-				'class' => 'AppBundle:Person',
+				'class' => 'AppBundle:Person',			
 			])
+			*/
 			->add('persons', CollectionType::class, [
 				'entry_type' => PersonType::class,
 				'allow_add' => true,
@@ -61,6 +62,7 @@ class ResaType extends AbstractType
 		;
     }
     
+	
     /**
      * {@inheritdoc}
      */
@@ -71,6 +73,7 @@ class ResaType extends AbstractType
         ));
     }
 
+	
     /**
      * {@inheritdoc}
      */
@@ -78,6 +81,4 @@ class ResaType extends AbstractType
     {
         return 'appbundle_resa';
     }
-
-
 }

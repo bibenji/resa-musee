@@ -45,6 +45,7 @@ class PersonType extends AbstractType
 		;
     }
     
+	
     /**
      * {@inheritdoc}
      */
@@ -55,6 +56,7 @@ class PersonType extends AbstractType
         ));
     }
 
+	
     /**
      * {@inheritdoc}
      */
@@ -62,6 +64,4 @@ class PersonType extends AbstractType
     {
         return 'appbundle_person';
     }
-
-
 }

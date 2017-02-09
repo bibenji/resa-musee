@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+// use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\HttpFoundation\Session\Session;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,23 +21,19 @@ class MainController extends Controller
      * @Route("/", name="homepage")
      */
     public function indexAction(Request $request)
-    {
-		// $session = new Session(); // fait planter les tests		
+    {		
 		$session = $this->get('session');
 		$session->clear();
-		
-        // replace this example code with whatever you need
-        return $this->render('AppBundle:Main:index.html.twig', [
-            // 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-        ]);
+        
+        return $this->render('AppBundle:Main:index.html.twig');
     }
+	
 	
 	/**
 	 * @Route("/reservation", name="reservation")
 	 */
 	public function reservationAction(Request $request)
-	{
-		// $session = new Session(); // fait planter les tests
+	{		
 		$session = $this->get('session');
 		
 		$resa = $session->get('resa');
@@ -58,13 +56,8 @@ class MainController extends Controller
 				throw $this->createNotFoundException('Pas de personnes enregistrées !');
 			}
 			
-			$token = $request->request->get('stripeToken');
-			
+			$token = $request->request->get('stripeToken');			
 			$resa->setToken($token);
-			
-			// $em = $this->get('doctrine.orm.entity_manager');
-            // $em->persist($resa);
-            // $em->flush();
 			
 			$session->set('resa', $resa);
 			
@@ -74,8 +67,8 @@ class MainController extends Controller
 			return $this->redirectToRoute('validation');	
 		}
 		
+		// dates pleines pour le datepicker
 		$fullDays = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Resa')->getFullDays();
-
 		$fullDates = array();
 		foreach ($fullDays as $oneDay) {
 			$fullDates[] = $oneDay['date']->format('Y-n-d');			
@@ -87,12 +80,12 @@ class MainController extends Controller
         ]);		
 	}
 	
+	
 	/**
 	 * @Route("/validation", name="validation")
 	 */
 	public function validationAction(Request $request)
-	{
-		// $session = new Session(); // fait planter les tests
+	{		
 		$session = $this->get('session');
 		
 		$resa = $session->get('resa');
@@ -110,12 +103,12 @@ class MainController extends Controller
 		]);
 	}
 	
+	
 	/**
 	 * @Route("/confirmation", name="confirmation")
 	 */
 	public function confirmationAction(Request $request)
-	{
-		// $session = new Session(); // fait planter les tests
+	{		
 		$session = $this->get('session');
 		
 		$resa = $session->get('resa');		
@@ -123,9 +116,11 @@ class MainController extends Controller
 				
 		$session->clear();
 		
-		try {	
+		try {
+			
+			$apiKey = $this->getParameter('stripe_api_key');
 		
-			\Stripe\Stripe::setApiKey("sk_test_IqL8pyMzT0nC8QmXksCOwMCO");
+			\Stripe\Stripe::setApiKey($apiKey);
 			
 			$charge = \Stripe\Charge::create(array(
 				"amount" => $this->get('calculator')->calculTotalPrice($resa).'00',
@@ -142,7 +137,7 @@ class MainController extends Controller
 		$em->persist($resa);
 		$em->flush();
 		
-		$resa->setCode(uniqid($resa->getNom())); // prefix à changer
+		$resa->setCode(uniqid(strtoupper($resa->getNom()))); // préfix à changer
 		
 		$total = $this->get('calculator')->calculTotalPrice($resa);		
 		$this->get('confirmation_sender')->send($resa, $total);		
@@ -155,15 +150,16 @@ class MainController extends Controller
         ]);		
 	}
 	
+	
 	/**
+	 * Route de test 1
+	 *
 	 * @Route("/full_days", name="full_days")
 	 */
 	public function fullDaysAction()
 	{
 		$fullDays = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Resa')->getFullDays();
-		
-		// return json_encode($fullDays);
-		
+				
 		$fullDates = array();
 		foreach ($fullDays as $oneDay) {
 			$fullDates[] = $oneDay['date']->format('Y-m-d');			
@@ -179,6 +175,8 @@ class MainController extends Controller
 	}
 	
 	/**
+	 * Route de test 2
+	 *
 	 * @Route("/test", name="test")
 	 */
 	public function testAction(Request $request)
