@@ -23,3 +23,21 @@ AppBundle\Entity\Resa:
                 max: 10
                 minMessage: 'Aucun visiteur enregistré !'
                 maxMessage: 'Vous avez dépassé le nombre maximum de visiteurs par réservation !'
+            - Valid: ~
+
+AppBundle\Entity\Person:
+    properties:
+        firstname:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 50
+                minMessage: 'Trop court !'
+                minMessage: 'Trop long !'
+        lastname:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 50
+                minMessage: 'Trop court !'
+                minMessage: 'Trop long !'

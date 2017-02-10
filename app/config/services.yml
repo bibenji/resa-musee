@@ -29,4 +29,16 @@ services:
     confirmation_sender:
         class: AppBundle\Services\ConfirmationSender
         arguments:
-            containerInterface: "@service_container"           
+            # containerInterface: "@service_container"
+            mailer: "@mailer"
+            twig: "@templating"
+            paramKernelRootDir: "%kernel.root_dir%"
+            calculator: "@calculator"
+    
+    # listener réservation faite
+    resa_done_listener:
+        class: AppBundle\Events\Listeners\ResaDoneListener        
+        calls:
+            - [ setConfirmationSender, ['@confirmation_sender'] ]
+        tags:
+            - { name: kernel.event_listener, event: resa.done, method: sendMail }

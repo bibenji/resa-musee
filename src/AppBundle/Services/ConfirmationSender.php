@@ -1,26 +1,28 @@
 <?php
 namespace AppBundle\Services;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use AppBundle\Entity\Resa;
 
 class ConfirmationSender
-{	
-	protected $container;
+{		
 	protected $mailer;
 	protected $twig;
- 
-    public function __construct(ContainerInterface $container)
+	protected $paramKernelRootDir;
+	protected $calculator;
+     
+    public function __construct($mailer, $twig, $paramKernelRootDir, $calculator)
     {
-		$this->container = $container;
-		$this->mailer = $container->get('mailer');
-		$this->twig = $container->get('templating');		
+		$this->mailer = $mailer;	
+		$this->twig = $twig;
+		$this->paramKernelRootDir = $paramKernelRootDir;
+		$this->calculator = $calculator;
     }
+			
+	public function send($resa)
+	{	
+		$total = $this->calculator->calculTotalPrice($resa);
 		
-	public function send($resa, $total)
-	{			
-		$base_dir = realpath($this->container->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR;
+		$base_dir = realpath($this->paramKernelRootDir.'/..').DIRECTORY_SEPARATOR;
 		$path_to_img = $base_dir.'web\images\90e35ed.jpg';
 				
 		$message = \Swift_Message::newInstance();

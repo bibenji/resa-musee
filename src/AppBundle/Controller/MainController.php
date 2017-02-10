@@ -6,6 +6,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use AppBundle\Events\ResaDoneEvent;
+use Symfony\Component\EventDispatcher\GenericEvent; // pour tester
+
 // use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -186,7 +190,16 @@ class MainController extends Controller
 		
 		$total = $this->get('calculator')->calculTotalPrice($resa);
 		
-		$this->get('confirmation_sender')->send($resa, $total);		
+				
+		// $this->get('confirmation_sender')->send($resa, $total);		
+		// nouveau code :
+		// $dispatcher = new EventDispatcher(); // doesn't work !
+		$dispatcher = $this->get('event_dispatcher');
+		
+		$event = new ResaDoneEvent($resa);
+		$dispatcher->dispatch(ResaDoneEvent::NAME, $event);
+		// $dispatcher->dispatch('resa.done', new GenericEvent($resa)); // alternative		
+		
 		
 		return $this->render('AppBundle:Emails:confirmation.html.twig', [
 			'logo' => 'logo',
